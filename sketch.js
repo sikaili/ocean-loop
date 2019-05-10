@@ -33,7 +33,10 @@ function setup() {
 function draw() {
   background(255);
   let r = 100;
-  loops.forEach(a => a.display());
+  loops.forEach(a => {
+    a.inter(loops);
+    a.display();
+  });
   // console.clear();
   noStroke();
   fill(0, 30);
@@ -42,18 +45,18 @@ function draw() {
   }
 }
 
-function Loop(r, x, y, clock) {
-  this.x = x;
-  this.y = y;
+function Loop(r, x, y) {
+  this.coli = false;
+  this.pos = createVector(x, y);
   this.r = r;
   this.clock = random(255);
+
   this.display = () => {
     fill(0, 0);
-    stroke(0);
+    stroke(!this.coli ? 0 : [255, 9, 9]);
     push();
-    translate(this.x, this.y)
+    translate(this.pos.x, this.pos.y)
     beginShape()
-
     for (let i = 0; i < PI * 2; i += 0.02) {
       this.clock += 0.0001;
       rotate(i / (noise(this.clock) + 10))
@@ -63,6 +66,17 @@ function Loop(r, x, y, clock) {
     }
     endShape()
     pop();
+  }
+  this.inter = (array) => {
+    for (let i = 0; i < array.length; i++) {
+      if (this != array[i]) {
+        let distance = p5.Vector.dist(this.pos, array[i].pos);
+        if (distance < (this.r + array[i].r) / 2) {
+          this.coli = true;
+          array[i].coli = true;
+        }
+      }
+    }
   }
 }
 
