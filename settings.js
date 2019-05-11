@@ -1,5 +1,8 @@
 function touchStarted() {
   state = 1;
+  let dump = new Loop(random(0, 150 / 1024 * width), mouseX, mouseY);
+  loops.push(dump);
+  console.log(loops);
 }
 
 function touchEnded() {
@@ -7,9 +10,7 @@ function touchEnded() {
 }
 
 function keyPressed() {
-
-  if (keyCode == 189 || keyCode == 187) {}
-
+  keyCode == 32 ? save(cvs, "1.tif") : "";
 }
 
 function addSnapshot(id) {
@@ -26,7 +27,6 @@ function addSnapshot(id) {
 
   console.log(dumps);
   localStorage.setItem("canvas-" + id, JSON.stringify(dumps))
-
 }
 
 function removeSnapshot(id) {

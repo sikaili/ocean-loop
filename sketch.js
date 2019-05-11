@@ -15,7 +15,7 @@ let loops = [];
 function setup() {
   mic = new p5.AudioIn();
   mic.start();
-  createCanvas(windowWidth, windowHeight);
+  cvs = createCanvas(windowWidth, windowHeight);
   osc = new p5.Oscillator();
   osc.disconnect();
   osc.connect(filt);
@@ -46,11 +46,7 @@ function draw() {
 }
 
 
-function mouseClicked() {
-  let dump = new Loop(random(0, 150), mouseX, mouseY);
-  loops.push(dump);
-  console.log(loops);
-}
+
 document.touchmove = function (n) {
   n.preventDefault();
 };
