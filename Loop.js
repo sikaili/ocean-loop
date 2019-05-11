@@ -20,6 +20,7 @@ function Loop(r, x, y) {
       let y = this.r * sin(i);
       // let y = spinningPlate(100, this.clock1, i, this.clock)
       vertex(x, y);
+      strokeWeight(2 / 1000 * width * this.clock1 / 255)
       point(x + i, y + i);
     }
     endShape()
@@ -32,7 +33,7 @@ function Loop(r, x, y) {
         let distance = p5.Vector.dist(this.pos, array[i].pos);
         if (distance < (this.r + array[i].r)) {
           this.coli += 1;
-          let d = this.clock > this.clock1 * 500 ? -100 : 0.1;
+          let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
           this.clock += d;
         }
       }
@@ -42,16 +43,17 @@ function Loop(r, x, y) {
 
 function spinningPlate(r, i, clock1, clock) {
   let n = Math.floor(clock1 / 80);
-  // yuan
-  if (n == 1) {
-    return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 + clock) * cos(i)
-  }
-  //  蛹
-  if (n == 2) {
-    return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)
-  }
-  if (n == 3) {
-    return noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)
+  // 圆
+  switch (n) {
+    case 0:
+      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 + clock) * cos(i)
+    case 1:
+      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 + clock) * cos(i)
+      //  蛹
+    case 2:
+      return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)
+    case 3:
+      return noise(i) * r * sin(frameCount / 20 + clock) * cos(i)
   }
 
 }
