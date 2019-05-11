@@ -35,7 +35,7 @@ function draw() {
   let r = 100;
   loops.forEach(a => {
     a.inter(loops);
-    a.display();
+    a.display(loops);
   });
   // console.clear();
   noStroke();
