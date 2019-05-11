@@ -42,7 +42,7 @@ function Loop(r, x, y) {
 }
 
 function spinningPlate(r, i, clock1, clock, length) {
-  let n = Math.floor(clock1 / 80);
+  let n = Math.floor(clock1 + length / 2) % 4;
   switch (n) {
     // 圆
     case 0:
