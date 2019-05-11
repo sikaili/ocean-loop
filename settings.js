@@ -1,5 +1,6 @@
 function touchStarted() {
   state = 1;
+
   let dump = new Loop(random(0, 150 / 1024 * width), mouseX, mouseY);
   loops.push(dump);
   console.log(loops);
@@ -10,6 +11,8 @@ function touchEnded() {
 }
 
 function keyPressed() {
+  loops.forEach(a => a.clock /= 10);
+
   keyCode == 32 ? save(cvs, "1.tif") : "";
 }
 
