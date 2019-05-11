@@ -6,7 +6,7 @@ function Loop(r, x, y) {
   this.clock1 = JSON.parse(JSON.stringify(this.clock));
   this.display = () => {
     fill(0, 0);
-    stroke(!this.coli ? 0 : 0);
+    stroke(!this.coli ? 0 : random(255));
     push();
     translate(this.pos.x, this.pos.y)
     beginShape()
@@ -43,12 +43,12 @@ function Loop(r, x, y) {
 
 function spinningPlate(r, i, clock1, clock) {
   let n = Math.floor(clock1 / 80);
-  // 圆
   switch (n) {
+    // 圆
     case 0:
       return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 + clock) * cos(i)
     case 1:
-      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 + clock) * cos(i)
+      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 20 + clock) * sin(i)
       //  蛹
     case 2:
       return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)

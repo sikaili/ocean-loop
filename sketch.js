@@ -31,7 +31,7 @@ function setup() {
 }
 
 function draw() {
-  background(255, 100);
+  background(100, 100);
   let r = 100;
   loops.forEach(a => {
     a.inter(loops);
