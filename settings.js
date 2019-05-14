@@ -1,8 +1,10 @@
 function touchStarted() {
   state = 1;
-
-  let dump = new Loop(random(0, 150 / 1024 * width), mouseX, mouseY);
-  loops.push(dump);
+  let num =Math.floor(Math.random()*15);
+  for(let i =0;i<num;i++){
+    let dump = new Loop(random(0, 150 / 1024 * width), mouseX, mouseY);
+    loops.push(dump);
+  }
   console.log(loops);
 }
 

@@ -6,13 +6,13 @@ function Loop(r, x, y) {
   this.clock1 = JSON.parse(JSON.stringify(this.clock));
   this.display = (array) => {
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) ? random(255) : 0);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) ? [random(0,255),random(0,255),random(0,255)] : 0);
     push();
     beginShape()
     translate(this.pos.x, this.pos.y)
     rotate(this.clock1);
     for (let i = 0; i < PI * 2; i += 0.08) {
-      this.clock += 0.0008;
+      this.clock += 0.0003;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
       // rotate(5 / (noise(this.clock) + 10) + this.clock1 / 3);
       // let x = this.r * cos(i);
@@ -22,6 +22,7 @@ function Loop(r, x, y) {
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
       strokeWeight(2 / 1000 * width * this.clock1 / 255)
       point(x + i, y + i);
+      // vertex(x,y);
     }
     // strokeWeight(1 / 1000 * width * (this.clock1 + array.length) / 255)
 
