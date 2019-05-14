@@ -14,7 +14,7 @@ function Loop(r, x, y) {
     for (let i = 0; i < PI * 2; i += 0.08) {
       this.clock += 0.0003;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
-      this.clock1 < 160 ? this.r+=0.001:'';
+      this.clock1 < 160 ? this.r+=0.1:'';
       // rotate(5 / (noise(this.clock) + 10) + this.clock1 / 3);
       // let x = this.r * cos(i);
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length);
