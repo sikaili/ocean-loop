@@ -23,6 +23,7 @@ class Loop {
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
       strokeWeight(2 / 1000 * width * this.clock1 / 255)
       point(x + i, y + i);
+      this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
     }
     endShape()
     pop();
