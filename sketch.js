@@ -40,16 +40,11 @@ function draw() {
   });
   noStroke();
   fill(0, 30);
-  ellipse(mouseX, mouseY, calR(state, 0));
+  ellipse(mouseX, mouseY, calR(state, 7));
 }
 
-function calR(start, speed) {
-  if (start == 1) {
-    r += 7;
-    console.log(r);
-  } else {
-    r = 10;
-  }
+function calR(state, speed) {
+  state == 1 ? r += speed : r = 10;
   return r;
 }
 

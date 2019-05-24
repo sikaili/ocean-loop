@@ -10,7 +10,7 @@ class Loop {
   display = (array) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) ? [random(0, 255), random(0, 255), random(0, 255)] : 0);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 0);
     beginShape();
     translate(this.pos.x, this.pos.y);
     rotate(this.clock1);
@@ -32,6 +32,9 @@ class Loop {
     for (let i = 0; i < array.length; i++) {
       if (this != array[i]) {
         let distance = p5.Vector.dist(this.pos, array[i].pos);
+        let distanceMouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY));
+        distanceMouse < this.r ? this.coli.mouse = true : this.coli.mouse = false;
+
         if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1) {
           this.coli.push(array[i]);
           let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
