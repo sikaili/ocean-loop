@@ -46,7 +46,6 @@ function draw() {
 }
 
 
-
 document.touchmove = function (n) {
   n.preventDefault();
 };

@@ -1,12 +1,11 @@
 function touchStarted() {
   state = 1;
-  loops = loops.filter(a=>a.r<500);
-  let num =Math.floor(Math.random()*15);
-  for(let i =0;i<num;i++){
+  loops = loops.filter(a => a.r < 500);
+  let num = Math.floor(Math.random() * 15);
+  for (let i = 0; i < num; i++) {
     let dump = new Loop(random(0, 150 / 1024 * width), mouseX, mouseY);
     loops.push(dump);
   }
-  console.log(loops);
 }
 
 function touchEnded() {
