@@ -11,6 +11,7 @@ let doubleClick, ts = [];
 let mic, osc, filt;
 let red;
 let loops = [];
+let r = 10;
 
 function setup() {
   mic = new p5.AudioIn();
@@ -33,16 +34,23 @@ function setup() {
 function draw() {
   background(100, 100);
   let r = 100;
-  loops.forEach(a => {
+  loops.map(a => {
     a.inter(loops);
     a.display(loops);
   });
-  // console.clear();
   noStroke();
   fill(0, 30);
-  if (state == 0) {
-    ellipse(mouseX, mouseY, 255);
+  ellipse(mouseX, mouseY, calR(state, 0));
+}
+
+function calR(start, speed) {
+  if (start == 1) {
+    r += 7;
+    console.log(r);
+  } else {
+    r = 10;
   }
+  return r;
 }
 
 

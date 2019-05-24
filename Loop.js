@@ -18,11 +18,8 @@ class Loop {
       this.clock += 0.0003;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
       this.clock1 < 160 ? this.r += 0.1 : '';
-      // rotate(5 / (noise(this.clock) + 10) + this.clock1 / 3);
-      // let x = this.r * cos(i);
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length);
       let y = this.r * sin(i);
-      // y = spinningPlate(100, this.clock1, i, this.clock)
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
       strokeWeight(2 / 1000 * width * this.clock1 / 255)
       point(x + i, y + i);
@@ -38,7 +35,6 @@ class Loop {
         if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1) {
           this.coli.push(array[i]);
           let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
-          // this.clock += d;
         }
       }
     }
@@ -46,7 +42,6 @@ class Loop {
 }
 
 function spinningPlate(r, i, clock1, clock, length) {
-  // let n = Math.floor(clock1 / 80);
   let n = (Math.floor(clock1 + length / 2) % 4);
   switch (n) {
     // 圆
