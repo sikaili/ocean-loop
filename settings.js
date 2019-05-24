@@ -1,11 +1,12 @@
 function touchStarted() {
+  // fullscreen(true);
   state !== 1 ? state = 1 : '';
 }
 
 function touchEnded() {
   state !== 0 ? state = 0 : '';
-  loops = loops.filter(a => a.r < 500);
-  let num = Math.floor(Math.random() * 10);
+  loops = loops.filter(a => a.r < width / 3);
+  let num = Math.floor(Math.random() * 15);
   for (let i = 0; i < num; i++) {
     let dump = new Loop(r + random(-10, 10), mouseX, mouseY);
     loops.push(dump);
@@ -16,6 +17,8 @@ function keyPressed() {
   loops.forEach(a => a.clock /= 10);
 
   keyCode == 32 ? save(cvs, "1.tif") : "";
+  // keyCode == 82 ? record() : "";
+
 }
 
 function addSnapshot(id) {

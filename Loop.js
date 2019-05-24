@@ -21,10 +21,14 @@ class Loop {
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length);
       let y = this.r * sin(i);
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
-      strokeWeight(2 / 1000 * width * this.clock1 / 255)
+      strokeWeight(2 / 1000 * width * this.clock1 / 255);
       point(x + i, y + i);
-      this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
+      // this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
+
     }
+
+    // Math.random() > 0.0 ? vertex(array[0].pos.x - this.pos.x, array[3].pos.y - this.pos.y) : "";
+
     endShape()
     pop();
   }
@@ -33,10 +37,8 @@ class Loop {
     for (let i = 0; i < array.length; i++) {
       if (this != array[i]) {
         let distance = p5.Vector.dist(this.pos, array[i].pos);
-        let distanceMouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY));
-        distanceMouse < this.r ? this.coli.mouse = true : this.coli.mouse = false;
-
-        if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1) {
+        this.coli.mouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY)) < this.r;
+        if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > -1) {
           this.coli.push(array[i]);
           let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
         }
