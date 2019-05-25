@@ -30,8 +30,8 @@ function setup() {
   document.body.appendChild(btn);
   btn.onclick = record;
   let m = setInterval(() => {
-    createLoop(random(0, width), random(0, height), random(0, 100));
-  }, 10000);
+    createLoop(random(0, width), random(0, height), random(0, 0.1 * width));
+  }, 3000);
   // clearInterval(m);
 }
 
