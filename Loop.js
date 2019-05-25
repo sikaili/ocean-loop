@@ -14,7 +14,7 @@ class Loop {
   display = (array) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 0);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 255);
     beginShape();
     translate(this.pos.x, this.pos.y);
     rotate(this.clock1);

@@ -25,7 +25,6 @@ function setup() {
   cvs = createCanvas(windowWidth, windowWidth / 16 * 9);
   cvs.parent('sketch-holder');
   btn = document.getElementById('record');
-  // btn = document.createElement('button');
   btn.textContent = "start recording";
   document.body.appendChild(btn);
   btn.onclick = record;
@@ -37,7 +36,7 @@ function setup() {
 
 function draw() {
 
-  background(255, 50);
+  background(0, 50);
   let r = 100;
 
   loops.map(a => {
