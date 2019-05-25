@@ -1,68 +1,105 @@
-class Loop {
-  constructor(r, x, y) {
-    this.coli = [];
-    this.pos = createVector(x, y);
-    this.r = r;
-    this.clock = random(140, 240);
-    this.clock1 = JSON.parse(JSON.stringify(this.clock));
-    this.go = createVector(random(-3, 3), random(-3, 3));
+"use strict";
 
-  }
-  update = () => {
-    this.clock1 > 180 ? this.pos.add(this.go) : "";
-  }
-  display = (array) => {
-    push();
-    fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 255);
-    beginShape();
-    translate(this.pos.x, this.pos.y);
-    rotate(this.clock1);
-    for (let i = 0; i < PI * 2; i += 0.08) {
-      this.clock += 0.0003;
-      this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
-      this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.1 : '';
-      let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
-      let y = this.r * sin(i);
-      this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
-      strokeWeight(2 / 1000 * width * this.clock1 / 255);
-      point(x + i, y + i);
-      // this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
-
-    }
-
-    // Math.random() > 0.0 ? vertex(array[0].pos.x - this.pos.x, array[3].pos.y - this.pos.y) : "";
-
-    endShape()
-    pop();
-  }
-
-  inter = (array) => {
-    for (let i = 0; i < array.length; i++) {
-      if (this != array[i]) {
-        let distance = p5.Vector.dist(this.pos, array[i].pos);
-        this.coli.mouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY)) < this.r;
-        if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > -1) {
-          this.coli.push(array[i]);
-          let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
-        }
-      }
-    }
+function _instanceof(left, right) {
+  if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+    return right[Symbol.hasInstance](left);
+  } else {
+    return left instanceof right;
   }
 }
 
+function _classCallCheck(instance, Constructor) {
+  if (!_instanceof(instance, Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+
+var Loop = function Loop(r, _x, _y) {
+  var _this = this;
+
+  _classCallCheck(this, Loop);
+
+  _defineProperty(this, "update", function (e) {
+    _this.clock1 > 180 ? _this.pos.add(_this.go) : "";
+  });
+
+  _defineProperty(this, "display", function (array) {
+    push();
+    fill(0, 0);
+    stroke(_this.coli.length % 3 === 1 && _this.clock1 > 30 || _this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 255);
+    beginShape();
+    translate(_this.pos.x, _this.pos.y);
+    rotate(_this.clock1);
+
+    for (var i = 0; i < PI * 2; i += 0.08) {
+      _this.clock += 0.0003;
+      _this.clock1 > 180 ? rotate(noise(_this.clock) / 10 + _this.clock1 / 3) : "";
+      _this.clock1 < 160 && Math.random() > 0.5 ? _this.r += 0.1 : '';
+      var x = spinningPlate(_this.r, i, _this.clock1, _this.clock, array.length + _this.coli.length);
+      var y = _this.r * sin(i);
+      _this.clock1 < 180 && _this.clock1 > 30 ? vertex(y, x) : '';
+      strokeWeight(2 / 1000 * width * _this.clock1 / 255);
+      point(x + i, y + i); // this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
+    } // Math.random() > 0.0 ? vertex(array[0].pos.x - this.pos.x, array[3].pos.y - this.pos.y) : "";
+
+
+    endShape();
+    pop();
+  });
+
+  _defineProperty(this, "inter", function (array) {
+    for (var i = 0; i < array.length; i++) {
+      if (_this != array[i]) {
+        var distance = p5.Vector.dist(_this.pos, array[i].pos);
+        _this.coli.mouse = p5.Vector.dist(_this.pos, createVector(mouseX, mouseY)) < _this.r;
+
+        if (distance < _this.r + array[i].r && _this.coli.indexOf(array[i]) == -1 && distance > -1) {
+          _this.coli.push(array[i]);
+
+          var d = _this.clock > _this.clock1 * 500 ? -10000 : 0.1;
+        }
+      }
+    }
+  });
+
+  this.coli = [];
+  this.pos = createVector(_x, _y);
+  this.r = r;
+  this.clock = random(140, 240);
+  this.clock1 = JSON.parse(JSON.stringify(this.clock));
+  this.go = createVector(random(-3, 3), random(-3, 3));
+};
+
 function spinningPlate(r, i, clock1, clock, length) {
-  let n = (Math.floor(clock1 + length / 2) % 4);
+  var n = Math.floor(clock1 + length / 2) % 4;
+
   switch (n) {
     // 圆
     case 0:
-      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 * length + clock) * cos(i)
+      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 * length + clock) * cos(i);
+
     case 1:
-      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 20 + clock) * sin(i)
+      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 20 + clock) * sin(i);
       //  蛹
+
     case 2:
-      return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)
+      return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i);
+
     case 3:
-      return noise(i) * r * sin(frameCount / 20 + clock) * cos(i)
+      return noise(i) * r * sin(frameCount / 20 + clock) * cos(i);
   }
 }
