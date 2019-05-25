@@ -21,7 +21,7 @@ let loops = [];
 let r = 10;
 
 function setup() {
-  pixelDensity(1);
+  // pixelDensity(1);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
   btn = document.getElementById('record');
