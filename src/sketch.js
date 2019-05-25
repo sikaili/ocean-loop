@@ -46,7 +46,7 @@ function draw() {
     a.display(loops);
   });
   noStroke();
-  fill(0, 30);
+  fill(255, 30);
   ellipse(mouseX, mouseY, calR(state, 7 / 1024 * (width + height) / 2));
   loops = loops.filter(a => a.r < (width + height) / 2 / 3 && a.pos.x > 0);
 

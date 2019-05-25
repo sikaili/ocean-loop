@@ -25,7 +25,7 @@ class Loop {
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
       let y = this.r * sin(i);
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
-      strokeWeight((2 / 1000 * width * this.clock1 / 255) * pixelDensity());
+      strokeWeight((2 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity());
       point(x + i, y + i);
       // this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
 
