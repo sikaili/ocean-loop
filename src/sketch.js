@@ -29,7 +29,7 @@ function setup() {
   document.body.appendChild(btn);
   btn.onclick = record;
   let m = setInterval(() => {
-    createLoop(random(0, width), random(0, height), random(0, 0.1 * width));
+    createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
   }, 8000);
   // clearInterval(m);
 }
@@ -47,7 +47,8 @@ function draw() {
   });
   noStroke();
   fill(0, 30);
-  ellipse(mouseX, mouseY, calR(state, 7 / 1024 * width));
+  ellipse(mouseX, mouseY, calR(state, 7 / 1024 * (width + height) / 2));
+  loops = loops.filter(a => a.r < (width + height) / 2 / 3 && a.pos.x > 0);
 
   if (capturer) {
     capturer.capture(document.getElementById('defaultCanvas0'));
@@ -85,7 +86,7 @@ function record() {
 
 function createLoop(x, y, _r) {
   _r > 50 ? background(random(100), 0, random(100), r * 4) : "";
-  loops = loops.filter(a => a.r < width / 3 && a.pos.x > 0);
+  loops = loops.filter(a => a.r < (width + height) / 2 / 3 && a.pos.x > 0);
   loops.length > 100 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 70) : "";
   let num = Math.floor(Math.random() * 10);
   y > height ? num = 0 : '';

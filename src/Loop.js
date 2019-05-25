@@ -9,7 +9,7 @@ class Loop {
 
   }
   update = () => {
-    this.clock1 > 180 ? this.pos.add(this.go) : "";
+    this.clock1 < 170 || this.coli.length > 20 ? this.pos.add(this.go) : "";
   }
   display = (array) => {
     push();
@@ -25,7 +25,7 @@ class Loop {
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
       let y = this.r * sin(i);
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
-      strokeWeight(2 / 1000 * width * this.clock1 / 255);
+      strokeWeight((2 / 1000 * width * this.clock1 / 255) * pixelDensity());
       point(x + i, y + i);
       // this.coli.mouse && this.r < 100 ? vertex(x * noise(i), y) : "";
 
@@ -42,8 +42,9 @@ class Loop {
       if (this != array[i]) {
         let distance = p5.Vector.dist(this.pos, array[i].pos);
         this.coli.mouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY)) < this.r;
-        if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > -1) {
+        if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > 2) {
           this.coli.push(array[i]);
+          this.go.mult(-1);
           let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
         }
       }
