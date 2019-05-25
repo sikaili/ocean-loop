@@ -24,7 +24,8 @@ function setup() {
   pixelDensity(1)
   cvs = createCanvas(windowWidth, windowWidth / 16 * 9);
   cvs.parent('sketch-holder');
-  btn = document.createElement('button');
+  btn = document.getElementById('record');
+  // btn = document.createElement('button');
   btn.textContent = "start recording";
   document.body.appendChild(btn);
   btn.onclick = record;
@@ -54,11 +55,10 @@ function draw() {
 }
 
 function record() {
-  x
 
   capturer = new CCapture({
     format: 'webm',
-    framerate: 15
+    framerate: 24
   });
   capturer.start();
   btn.textContent = 'stop recording';
@@ -67,7 +67,13 @@ function record() {
     capturer.stop();
     capturer.save();
     capturer = null;
-
+    btn.textContent = 'start recording';
+    btn.onclick = record;
+  };
+  window.onkeypress = e => {
+    capturer.stop();
+    capturer.save();
+    capturer = null;
     btn.textContent = 'start recording';
     btn.onclick = record;
   };
