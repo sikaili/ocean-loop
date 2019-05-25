@@ -24,10 +24,10 @@ function setup() {
   // pixelDensity(1);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
-  btn = document.getElementById('record');
-  btn.textContent = "start recording";
-  document.body.appendChild(btn);
-  btn.onclick = record;
+  // btn = document.getElementById('record');
+  // btn.textContent = "start recording";
+  // document.body.appendChild(btn);
+  // btn.onclick = record;
   let m = setInterval(() => {
     createLoop(random(0, width), random(0, height), random(0, 0.1 * width));
   }, 8000);
