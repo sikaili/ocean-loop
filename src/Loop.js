@@ -6,10 +6,10 @@ class Loop {
     this.clock = random(140, 240);
     this.clock1 = JSON.parse(JSON.stringify(this.clock));
     this.go = createVector(random(-3, 3), random(-3, 3));
-
+    this.start = JSON.parse(JSON.stringify(millis()));
   }
   update = () => {
-    this.clock1 < 170 || this.coli.length > 20 ? this.pos.add(this.go) : "";
+    this.clock1 < 170 || this.coli.length > 10 || millis() - this.start > 12000 ? this.pos.add(this.go) : "";
   }
   display = (array) => {
     push();
@@ -18,8 +18,8 @@ class Loop {
     beginShape();
     translate(this.pos.x, this.pos.y);
     rotate(this.clock1);
-    for (let i = 0; i < PI * 2; i += 0.08) {
-      this.clock += 0.0003;
+    for (let i = 0; i < PI * 2; i += 0.07) {
+      this.clock += 0.0002;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
       this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.1 : '';
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
@@ -57,13 +57,13 @@ function spinningPlate(r, i, clock1, clock, length) {
   switch (n) {
     // 圆
     case 0:
-      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 20 * length + clock) * cos(i)
+      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 40 * length + clock) * cos(i)
     case 1:
-      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 20 + clock) * sin(i)
+      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 40 + clock) * sin(i)
       //  蛹
     case 2:
-      return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 20 + clock) * cos(i)
+      return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 40 + clock) * cos(i)
     case 3:
-      return noise(i) * r * sin(frameCount / 20 + clock) * cos(i)
+      return noise(i) * r * sin(frameCount / 40 + clock) * cos(i)
   }
 }
