@@ -21,7 +21,7 @@ let loops = [];
 let r = 10;
 
 function setup() {
-  pixelDensity(1)
+  // pixelDensity(1)
   cvs = createCanvas(windowWidth, windowWidth / 16 * 9);
   cvs.parent('sketch-holder');
   btn = document.getElementById('record');
@@ -29,6 +29,10 @@ function setup() {
   btn.textContent = "start recording";
   document.body.appendChild(btn);
   btn.onclick = record;
+  let m = setInterval(() => {
+    createLoop(random(0, width), random(0, height), random(0, 100));
+  }, 10000);
+  // clearInterval(m);
 }
 
 function draw() {
@@ -37,6 +41,8 @@ function draw() {
   let r = 100;
 
   loops.map(a => {
+    a.update();
+
     a.inter(loops);
     a.display(loops);
   });
@@ -55,10 +61,9 @@ function draw() {
 }
 
 function record() {
-
   capturer = new CCapture({
     format: 'webm',
-    framerate: 24
+    framerate: 30
   });
   capturer.start();
   btn.textContent = 'stop recording';
@@ -77,6 +82,18 @@ function record() {
     btn.textContent = 'start recording';
     btn.onclick = record;
   };
+}
+
+function createLoop(x, y, _r) {
+  _r > 50 ? background(random(100), 0, random(100), r * 4) : "";
+  loops = loops.filter(a => a.r < width / 3 && a.pos.x > 0);
+  loops.length > 100 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 70) : "";
+  let num = Math.floor(Math.random() * 10);
+  y > height ? num = 0 : '';
+  for (let i = 0; i < num; i++) {
+    let dump = new Loop(_r + random(-10, 10), x, y);
+    loops.push(dump);
+  }
 }
 
 
