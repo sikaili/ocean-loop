@@ -30,7 +30,7 @@ function setup() {
   btn.onclick = record;
   let m = setInterval(() => {
     createLoop(random(0, width), random(0, height), random(0, 0.1 * width));
-  }, 3000);
+  }, 8000);
   // clearInterval(m);
 }
 
