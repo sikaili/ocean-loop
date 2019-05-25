@@ -7,6 +7,7 @@ function touchEnded() {
   state !== 0 ? state = 0 : '';
   loops = loops.filter(a => a.r < width / 3);
   let num = Math.floor(Math.random() * 15);
+  mouseY > height ? num = 0 : '';
   for (let i = 0; i < num; i++) {
     let dump = new Loop(r + random(-10, 10), mouseX, mouseY);
     loops.push(dump);
@@ -19,6 +20,11 @@ function keyPressed() {
   keyCode == 32 ? save(cvs, "1.tif") : "";
   // keyCode == 82 ? record() : "";
 
+}
+
+function calR(state, speed) {
+  state == 1 ? r += speed : r = 10;
+  return r;
 }
 
 function addSnapshot(id) {
