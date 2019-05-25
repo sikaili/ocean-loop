@@ -19,9 +19,9 @@ class Loop {
     translate(this.pos.x, this.pos.y);
     rotate(this.clock1);
     for (let i = 0; i < PI * 2; i += 0.08) {
-      this.clock += 0.0003;
+      this.clock += 0.00025;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
-      this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.1 : '';
+      this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.08 : '';
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
       let y = this.r * sin(i);
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';

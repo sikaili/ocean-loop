@@ -21,6 +21,7 @@ let loops = [];
 let r = 10;
 
 function setup() {
+  frameRate(30);
   console.log(pixelDensity())
   // pixelDensity(1);
   cvs = createCanvas(windowWidth, windowHeight);
