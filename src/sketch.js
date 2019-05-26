@@ -24,8 +24,7 @@ let songs = [];
 function preload() {
   Array(100).fill('').map((a, i) => {
     songs[i] = loadSound(`assets/sound${i%5}.wav`);
-    songs[i].playMode('sustain');
-    // songs[i].setVolume(0);
+
   })
 }
 
@@ -44,7 +43,12 @@ function setup() {
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
   songs.map(a => {
-    Math.random() > 0.1 ? a.reverseBuffer() : "";
+    Math.random() > 0.5 ? a.reverseBuffer() : "";
+    a.play();
+    a.playMode('sustain');
+    a.setVolume(0);
+    a.connect();
+    a.stop();
   })
 }
 
@@ -58,10 +62,11 @@ function draw() {
       if (((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && !songs[i].isPlaying()) {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
-        let rate = map(a.r, 0, (width + height) / 2 / 3, 0.6, 1.5);
+        let rate = map(a.r, 0, (width + height) / 2 / 3, 0.2, 1.3);
+        songs[i].setVolume(rate, 1);
+
         // setTimeout(() => {
         songs[i].play();
-        // songs[i].setVolume(rate - 0.5, 0.5);
 
         // }, 500);
         // setTimeout(() => {
@@ -71,7 +76,7 @@ function draw() {
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 0.1);
         setTimeout(() => {
-          songs[i].pause();
+          songs[i].stop();
         }, 130);
       }
       a.inter(loops);
