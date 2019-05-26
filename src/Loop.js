@@ -41,7 +41,7 @@ class Loop {
     for (let i = 0; i < array.length; i++) {
       if (this != array[i]) {
         let distance = p5.Vector.dist(this.pos, array[i].pos);
-        this.coli.mouse = p5.Vector.dist(this.pos, createVector(mouseX, mouseY)) < this.r;
+        this.coli.mouse = (p5.Vector.dist(this.pos, createVector(mouseX, mouseY)) < this.r);
         if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > 2) {
           this.coli.push(array[i]);
           this.go.mult(-1);
