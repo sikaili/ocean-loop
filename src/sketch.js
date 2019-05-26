@@ -24,7 +24,7 @@ let amplitudes = [];
 
 function preload() {
   Array(100).fill('').map((a, i) => {
-    songs[i] = loadSound(`assets/sound${i%5}.wav`);
+    songs[i] = loadSound(`assets/sound${i%10}.wav`);
     amplitudes[i] = new p5.Amplitude();
   })
 }
@@ -74,19 +74,19 @@ function draw() {
         // }, 500);
 
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
-        songs[i].setVolume(0, 0.1);
+        songs[i].setVolume(0, 1);
         setTimeout(() => {
           songs[i].stop();
-        }, 130);
+        }, 1300);
       }
       let amp = amplitudes[i].getLevel();
       a.inter(loops);
       a.display(loops, amp);
     } else {
-      songs[i].setVolume(0, 0.8)
+      songs[i].setVolume(0, 3)
       setTimeout(() => {
         songs[i].disconnect();
-      }, 1300);
+      }, 4000);
     }
   });
   noStroke();
