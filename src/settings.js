@@ -1,6 +1,16 @@
 function touchStarted() {
+  getAudioContext().resume();
+
   // fullscreen(true);
   state !== 1 ? state = 1 : '';
+  // if (songs[2].isPlaying()) {
+  //   // .isPlaying() returns a boolean
+  //   songs[2].stop();
+  //   // background(255, 0, 0);
+  // } else {
+  //   songs[2].play();
+  //   // background(0, 255, 0);
+  // }
 }
 
 function touchEnded() {

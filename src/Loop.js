@@ -53,7 +53,7 @@ class Loop {
 }
 
 function spinningPlate(r, i, clock1, clock, length) {
-  let n = (Math.floor(clock1 + length / 2) % 4);
+  let n = (Math.floor(clock1 + length / 2) % 5);
   switch (n) {
     // 圆
     case 0:

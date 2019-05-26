@@ -19,6 +19,15 @@ let mic, osc, filt;
 let red;
 let loops = [];
 let r = 10;
+let songs = [];
+
+function preload() {
+  Array(4).fill('').map((a, i) => {
+    songs[i] = loadSound(`assets/1${i}.wav`);
+
+  })
+
+}
 
 function setup() {
   // pixelDensity(1)
@@ -35,13 +44,12 @@ function setup() {
 }
 
 function draw() {
-
   background(0, 50);
   let r = 100;
 
-  loops.map(a => {
+  loops.map((a) => {
     a.update();
-
+    i
     a.inter(loops);
     a.display(loops);
   });
