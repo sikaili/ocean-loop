@@ -20,16 +20,16 @@ let red;
 let loops = [];
 let r = 10;
 let songs = [];
+let amplitudes = [];
 
 function preload() {
   Array(100).fill('').map((a, i) => {
     songs[i] = loadSound(`assets/sound${i%5}.wav`);
-
+    amplitudes[i] = new p5.Amplitude();
   })
 }
 
 function setup() {
-
   // pixelDensity(1)
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
@@ -37,25 +37,25 @@ function setup() {
   btn.textContent = "start recording";
   document.body.appendChild(btn);
   btn.onclick = record;
-  // let m = setInterval(() => {
-  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
-  // }, 3000);
+  let m = setInterval(() => {
+    createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
+  }, 6000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
-  songs.map(a => {
+  songs.map((a, i) => {
     Math.random() > 0.5 ? a.reverseBuffer() : "";
     a.play();
     a.playMode('sustain');
     a.setVolume(0);
     a.connect();
     a.stop();
+    amplitudes[i].setInput(a);
   })
 }
 
 function draw() {
   background(0, 50);
   let r = 100;
-
   loops.map((a, i) => {
     a.update();
     if (a.r < (width + height) / 2 / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
@@ -79,8 +79,9 @@ function draw() {
           songs[i].stop();
         }, 130);
       }
+      let amp = amplitudes[i].getLevel();
       a.inter(loops);
-      a.display(loops);
+      a.display(loops, amp);
     } else {
       songs[i].setVolume(0, 0.8)
       setTimeout(() => {
