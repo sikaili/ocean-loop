@@ -24,7 +24,7 @@ let amplitudes = [];
 
 function preload() {
   Array(100).fill('').map((a, i) => {
-    songs[i] = loadSound(`assets/sound${i%10}.wav`);
+    songs[i] = loadSound(`assets/sound${i%9}.wav`);
     amplitudes[i] = new p5.Amplitude();
   })
 }
@@ -37,13 +37,13 @@ function setup() {
   btn.textContent = "start recording";
   document.body.appendChild(btn);
   btn.onclick = record;
-  let m = setInterval(() => {
-    createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
-  }, 6000);
+  // let m = setInterval(() => {
+  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
+  // }, 6000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
   songs.map((a, i) => {
-    Math.random() > 0.5 ? a.reverseBuffer() : "";
+    Math.random() > 0.8 ? a.reverseBuffer() : "";
     a.play();
     a.playMode('sustain');
     a.setVolume(0);
@@ -58,25 +58,17 @@ function draw() {
   let r = 100;
   loops.map((a, i) => {
     a.update();
-    if (a.r < (width + height) / 2 / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
+    if (a.r < (width + height) / 2 / 2 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
       if (((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && !songs[i].isPlaying()) {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
         let rate = map(a.r, 0, (width + height) / 2 / 3, 0.2, 1.3);
         songs[i].setVolume(rate, 1);
-
-        // setTimeout(() => {
         songs[i].play();
-
-        // }, 500);
-        // setTimeout(() => {
-        // songs[i].play(0, rate, rate - 0.5);
-        // }, 500);
-
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 1);
         setTimeout(() => {
-          songs[i].stop();
+          Math.random() > 0.5 ? songs[i].pause() : songs[i].stop();
         }, 1300);
       }
       let amp = amplitudes[i].getLevel();
