@@ -38,7 +38,7 @@ function setup() {
   document.body.appendChild(btn);
   btn.onclick = record;
   // let m = setInterval(() => {
-  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height) / 2));
+  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
   // }, 6000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
@@ -54,7 +54,7 @@ function setup() {
 }
 
 function draw() {
-  background(0, 50);
+  background(0, 35);
   let r = 100;
   loops.map((a, i) => {
     a.update();
@@ -68,17 +68,17 @@ function draw() {
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 1);
         setTimeout(() => {
-          Math.random() > 0.5 ? songs[i].pause() : songs[i].stop();
-        }, 1300);
+          Math.random() > 0.3 ? songs[i].pause() : songs[i].stop();
+        }, 1500);
       }
       let amp = amplitudes[i].getLevel();
       a.inter(loops);
       a.display(loops, amp);
     } else {
-      songs[i].setVolume(0, 3)
+      songs[i].setVolume(0, 4)
       setTimeout(() => {
         songs[i].disconnect();
-      }, 4000);
+      }, 7000);
     }
   });
   noStroke();
