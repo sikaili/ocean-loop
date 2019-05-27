@@ -25,7 +25,7 @@ let amplitudes = [];
 
 function preload() {
   Array(70).fill('').map((a, i) => {
-    songs[i] = loadSound(`assets/horror/sound${i%5}.wav`);
+    songs[i] = loadSound("assets/sound".concat(i % 8, ".wav"));
     amplitudes[i] = new p5.Amplitude();
   })
 }
@@ -67,7 +67,7 @@ function draw() {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
         let rate = map(a.r, 0, (width + height) / 2 / 3, 0.2, 1.3);
-        songs[i].setVolume(rate, 1);
+        songs[i].setVolume(rate + a.coli.mouse ? 1 : -1, 1);
         songs[i].play();
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 1);
