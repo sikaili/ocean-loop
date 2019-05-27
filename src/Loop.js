@@ -16,7 +16,7 @@ class Loop {
   display = (array, amp) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), this.clock1 / 1.5 + 30] : [255, this.clock1 + 30]);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), (this.clock1 / 1.5 + 30)] : [255, this.clock1 + 30]);
     beginShape();
     translate(this.pos.x, this.pos.y);
     push();
@@ -30,7 +30,7 @@ class Loop {
       this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.05 : '';
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
       let y = this.r * sin(i);
-      this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
+      this.clock1 < 150 && noise(this.clock, i) > 0.8 ? vertex(y, x) : "";
       strokeWeight((2 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 * map(this.clock1, 140, 240, 0.7, 1.3));
       point(x + i, y + i);
     }
@@ -62,7 +62,9 @@ function spinningPlate(r, i, clock1, clock, length) {
     case 0:
       return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / 40 * length + clock) * cos(i)
     case 1:
-      return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 40 + clock) * sin(i)
+      // return i / (2 * PI) * clock1 / 2 + 1 * r * cos(frameCount / 40 + clock) * sin(i)
+      // start field
+      // return i / (2 * PI) * clock1 / 5 * r * noise(clock / 5, i / 5) * noise(i / 10);
       //  蛹
     case 2:
       return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 40 + clock) * cos(i)

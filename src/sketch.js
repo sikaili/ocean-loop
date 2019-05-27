@@ -59,7 +59,7 @@ function setup() {
 function draw() {
   let amplis = amplitudes.map(a => a.getLevel()).reduce((a, b) => a + b);
   console.log(amplis)
-  background(0, 15 + amplis * 50);
+  background(0, 20 + amplis * 255);
 
   let r = 100;
   loops.map((a, i) => {
