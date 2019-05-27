@@ -18,13 +18,14 @@ let doubleClick, ts = [];
 let mic, osc, filt;
 let red;
 let loops = [];
-let r = 10;
-let songs = [];
+let r = 30;
+let songs = [],
+  reverb;
 let amplitudes = [];
 
 function preload() {
-  Array(100).fill('').map((a, i) => {
-    songs[i] = loadSound(`assets/sound${i%9}.wav`);
+  Array(70).fill('').map((a, i) => {
+    songs[i] = loadSound(`assets/horror/sound${i%5}.wav`);
     amplitudes[i] = new p5.Amplitude();
   })
 }
@@ -36,6 +37,8 @@ function setup() {
   btn = document.getElementById('record');
   btn.textContent = "start recording";
   document.body.appendChild(btn);
+  reverb = new p5.Reverb();
+
   btn.onclick = record;
   // let m = setInterval(() => {
   //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
@@ -43,7 +46,7 @@ function setup() {
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
   songs.map((a, i) => {
-    Math.random() > 0.8 ? a.reverseBuffer() : "";
+    Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
     a.play();
     a.playMode('sustain');
     a.setVolume(0);
@@ -51,6 +54,7 @@ function setup() {
     a.stop();
     amplitudes[i].setInput(a);
   })
+  reverb.amp(3);
 }
 
 function draw() {
@@ -75,14 +79,14 @@ function draw() {
       a.inter(loops);
       a.display(loops, amp);
     } else {
-      songs[i].setVolume(0, 4)
+      songs[i].setVolume(0, 2)
       setTimeout(() => {
         songs[i].disconnect();
       }, 7000);
     }
   });
   noStroke();
-  fill(255, 30);
+  fill(180, 100, 100, 30);
   ellipse(mouseX, mouseY, calR(state, 7 / 1024 * (width + height) / 2));
   // loops = loops.filter(a => a.r < (width + height) / 2 / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height));
 
@@ -123,14 +127,26 @@ function record() {
 function createLoop(x, y, _r) {
   console.log(loops.length)
   _r > 50 ? background(random(100), 0, random(100), r * 4) : "";
-  loops.length > 70 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 65) : "";
+  // loops.length > 70 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 65) : "";
   let num = Math.floor(Math.random() * 10);
   // num = 1;
   y > height ? num = 0 : '';
   for (let i = 0; i < num; i++) {
-    let dump = new Loop(_r + random(-10, 10), x, y);
+    let dump = new Loop(_r + random(20), x, y);
     loops.push(dump);
   }
+  loops.length > 70 ?
+    (() => {
+      loops.splice(0, 70);
+      songs.map(a => {
+        a.play();
+        a.playMode('sustain');
+        a.setVolume(0);
+        a.connect();
+        a.stop();
+      });
+    })() :
+    ""
 }
 
 
