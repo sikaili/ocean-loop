@@ -27,7 +27,7 @@ function keyPressed() {
 }
 
 function calR(state, speed) {
-  state == 1 ? r += speed : r = 10;
+  state == 1 ? r += speed : r = 30;
   return r;
 }
 

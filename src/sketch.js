@@ -79,7 +79,7 @@ function draw() {
       a.inter(loops);
       a.display(loops, amp);
     } else {
-      songs[i].setVolume(0, 2)
+      songs[i].setVolume(0, 3)
       setTimeout(() => {
         songs[i].disconnect();
       }, 7000);
@@ -88,7 +88,6 @@ function draw() {
   noStroke();
   fill(180, 100, 100, 30);
   ellipse(mouseX, mouseY, calR(state, 7 / 1024 * (width + height) / 2));
-  // loops = loops.filter(a => a.r < (width + height) / 2 / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height));
 
   if (capturer) {
     capturer.capture(document.getElementById('defaultCanvas0'));
@@ -97,7 +96,6 @@ function draw() {
       btn.click();
     }
   }
-
 }
 
 function record() {
@@ -139,8 +137,8 @@ function createLoop(x, y, _r) {
     (() => {
       loops.splice(0, 70);
       songs.map(a => {
-        a.play();
         a.playMode('sustain');
+        a.play();
         a.setVolume(0);
         a.connect();
         a.stop();
