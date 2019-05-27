@@ -62,13 +62,16 @@ function draw() {
   let r = 100;
   loops.map((a, i) => {
     a.update();
+    // a is visible in the canvas 
     if (a.r < (width + height) / 2 / 2 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
-      if (((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && !songs[i].isPlaying()) {
+      // a is colorful and not playing
+      if (((a.coli.length % 3 === 1 && a.clock1 > 160) || a.coli.mouse) && !songs[i].isPlaying()) {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
         let rate = map(a.r, 0, (width + height) / 2 / 3, 0.2, 1.3);
-        songs[i].setVolume(rate + a.coli.mouse ? 1 : -1, 1);
+        songs[i].setVolume((rate + a.coli.mouse ? 1 : -1, 1) / (a.coli.length + 1) * 2);
         songs[i].play();
+        // a is not colorful and playing
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 1);
         setTimeout(() => {

@@ -3,6 +3,7 @@ class Loop {
     this.coli = [];
     this.pos = createVector(x, y);
     this.r = r;
+    this.rInit = r;
     this.clock = random(140, 240);
     this.clock1 = JSON.parse(JSON.stringify(this.clock));
     this.go = createVector(random(-3, 3), random(-3, 3));
@@ -10,24 +11,28 @@ class Loop {
   }
   update = () => {
     this.clock1 < 170 || this.coli.length > 10 || millis() - this.start > 10000 ? this.pos.add(this.go) : "";
+    // this.coli.mouse && this.r - this.rInit < 100 ? this.r += 0.1 : this.r -= this.r > this.rInit ? 0.1 : 0;
   }
-  display = (array) => {
+  display = (array, amp) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 30) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255)] : 255);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), this.clock1 / 1.5 + 30] : [255, this.clock1 + 30]);
     beginShape();
     translate(this.pos.x, this.pos.y);
+    push();
+    stroke(255, 20);
+    text(amp.toString().slice(0, 5), 0, this.r);
+    pop();
     rotate(this.clock1);
     for (let i = 0; i < PI * 2; i += 0.07) {
       this.clock += 0.0002;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
-      this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.1 : '';
+      this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.05 : '';
       let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
       let y = this.r * sin(i);
       this.clock1 < 180 && this.clock1 > 30 ? vertex(y, x) : '';
       strokeWeight((2 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 * map(this.clock1, 140, 240, 0.7, 1.3));
       point(x + i, y + i);
-      // this.coli.mouse && this.r < 30 ? vertex(x * noise(i), y) : "";
     }
     endShape()
     pop();
