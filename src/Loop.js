@@ -47,6 +47,8 @@ class Loop {
           this.coli.push(array[i]);
           this.go.mult(-1);
           let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
+        } else if (!this.coli.indexOf(array[i]) == -1) {
+          this.coli.splice(this.coli.indexOf(array[i]), 1);
         }
       }
     }
