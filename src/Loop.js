@@ -16,7 +16,7 @@ class Loop {
   display = (array, amp) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), (this.clock1 / 1.5 + 30)] : [255, this.clock1 + 30]);
+    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), (this.clock1 / 1.5 + 30)] : [255, this.clock1 / 1.8 + 30]);
     beginShape();
     translate(this.pos.x, this.pos.y);
     push();
@@ -71,5 +71,7 @@ function spinningPlate(r, i, clock1, clock, length) {
       return i / (2 * PI) * clock1 / 5 + noise(clock) * r * sin(frameCount / 40 + clock) * cos(i)
     case 3:
       return noise(i) * r * sin(frameCount / 40 + clock) * cos(i)
+    case 4:
+      return noise(i, clock) * (r / 2) ^ 2 * cos(clock / 1000) * i
   }
 }
