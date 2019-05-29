@@ -20,7 +20,7 @@ class Loop {
     beginShape();
     translate(this.pos.x, this.pos.y);
     push();
-    stroke(255, 20);
+    stroke(255, 30 + amp * 500);
     text(amp.toString().slice(0, 5), 0, this.r);
     pop();
     rotate(this.clock1);
@@ -28,10 +28,11 @@ class Loop {
       this.clock += 0.0002;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
       this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.05 : '';
-      let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length);
+      let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length) * (this.clock1 < 200 ? constrain(map(amp, 0, 0.01, 1, 1.5), 1, 1.5) : 1);
       let y = this.r * sin(i);
       this.clock1 < 150 && noise(this.clock, i) > 0.8 ? vertex(y, x) : "";
-      strokeWeight((2 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 * map(this.clock1, 140, 240, 0.7, 1.3));
+      strokeWeight((1.5 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 / 1.5 * map(this.clock1, 140, 240, 0.7, 1.3));
+      abs(x) > width / 3 ? strokeWeight(noise(x) * 3) : "";
       point(x + i, y + i);
       this.clock1 > 200 ? vertex(y, x) : "";
     }
@@ -57,7 +58,7 @@ class Loop {
 }
 
 function spinningPlate(r, i, clock1, clock, length) {
-  let n = (Math.floor(clock1 + length / 2) % 5);
+  let n = (Math.floor(clock1 + length / 2) % 6);
   switch (n) {
     // 圆
     case 0:
@@ -73,5 +74,7 @@ function spinningPlate(r, i, clock1, clock, length) {
       return noise(i) * r * sin(frameCount / 40 + clock) * cos(i)
     case 4:
       return noise(i, clock) * (r / 2) ^ 2 * cos(clock / 1000) * i
+    case 5:
+      return noise(sin(i), cos(i)) * (r / 4) * i ^ 2 * tan(clock + 1)
   }
 }

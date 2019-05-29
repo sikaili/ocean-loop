@@ -39,9 +39,9 @@ function setup() {
   document.body.appendChild(btn);
   reverb = new p5.Reverb();
   btn.onclick = record;
-  // let m = setInterval(() => {
-  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
-  // }, 6000);
+  let m = setInterval(() => {
+    createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
+  }, 8000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
   songs.map((a, i) => {
@@ -59,7 +59,7 @@ function setup() {
 function draw() {
   let amplis = amplitudes.map(a => a.getLevel()).reduce((a, b) => a + b);
   // console.log(amplis)
-  background(0, 20 + amplis * 255);
+  background(0, 20 + amplis * 180);
 
   let r = 100;
   loops.map((a, i) => {
