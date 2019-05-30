@@ -32,6 +32,7 @@ function preload() {
 
 function setup() {
   // pixelDensity(1)
+  frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
   btn = document.getElementById('record');
@@ -54,14 +55,13 @@ function draw() {
   background(0, 20 + amplis * 30);
   let r = 100;
   loops.map((a, i) => {
-    a.update();
     // a is visible in the canvas 
-    if (a.r < (width + height) / 3 && a.r > 50 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
+    if (a.r < (width + height) / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
       // a is colorful and not playing
       if (((a.coli.length % 3 === 1 && a.clock1 > 160) || a.coli.mouse) && !songs[i].isPlaying()) {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
-        let rate = map(a.r, 50, (width + height) / 3, 0, 2);
+        let rate = map(a.r, 50, (width + height) / 3, 0, 4);
         songs[i].setVolume((rate + (a.coli.mouse ? 3 : -1)));
         songs[i].play();
         // a is not colorful and playing
@@ -73,6 +73,7 @@ function draw() {
       }
       let amp = amplitudes[i].getLevel();
       a.inter(loops);
+      a.update();
       a.display(loops, amp);
     } else {
       songs[i].setVolume(0, 3)
@@ -120,7 +121,7 @@ function record() {
 
 const createLoop = (x, y, _r) => {
   console.log(loops.length)
-  _r > 50 ? background(random(100), 0, random(100), r * 3) : "";
+  _r > 100 ? background(random(100), 0, random(100), r / 2) : "";
   let num = Math.floor(Math.random() * 10);
   // num = 1;
   for (let i = 0; i < num; i++) {

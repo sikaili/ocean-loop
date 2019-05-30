@@ -1,6 +1,13 @@
 function touchStarted() {
   getAudioContext().resume();
-
+  loops.map(a => {
+    // a.coli.mouse ?
+    //   Math.random() > 0.5 ?
+    //   a.bigger = !a.bigger :
+    //   a.shrink = !a.shrink :
+    //   ''
+    a.coli.mouse ? a.clock = 0 : "";
+  })
   // fullscreen(true);
   state !== 1 ? state = 1 : '';
   // if (songs[2].isPlaying()) {
@@ -23,6 +30,8 @@ function keyPressed() {
 
   keyCode == 32 ? save(cvs, `${frameCount}.tif`) : "";
   keyCode == 8 ? init() : "";
+  keyCode == 66 ? loops.map(a => a.shrink = true) : "";
+
 
   // keyCode == 82 ? record() : "";
 
