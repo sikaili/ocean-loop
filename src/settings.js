@@ -21,7 +21,9 @@ function touchEnded() {
 function keyPressed() {
   loops.forEach(a => a.clock /= 10);
 
-  keyCode == 32 ? save(cvs, `${frameCOunt}.tif`) : "";
+  keyCode == 32 ? save(cvs, `${frameCount}.tif`) : "";
+  keyCode == 8 ? init() : "";
+
   // keyCode == 82 ? record() : "";
 
 }
