@@ -16,7 +16,8 @@ class Loop {
   display = (array, amp) => {
     push();
     fill(0, 0);
-    stroke((this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), (this.clock1 / 1.5 + 30)] : [255, this.clock1 / 1.8 + 30]);
+    let color = [...(this.coli.length % 3 === 1 && this.clock1 > 160) || this.coli.mouse ? [random(0, 255), random(0, 255), random(0, 255), (this.clock1 / 1.5 + 30)] : [255, this.clock1 / 1.8 + 30]]
+    stroke(color);
     beginShape();
     translate(this.pos.x, this.pos.y);
     push();
@@ -28,13 +29,14 @@ class Loop {
       this.clock += 0.0002;
       this.clock1 > 180 ? rotate((noise(this.clock) / 10) + this.clock1 / 3) : "";
       this.clock1 < 160 && Math.random() > 0.5 ? this.r += 0.05 : '';
-      let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length) * (this.clock1 < 200 ? constrain(map(amp, 0, 0.01, 1, 1.5), 1, 1.5) : 1);
+      let x = spinningPlate(this.r, i, this.clock1, this.clock, array.length + this.coli.length) * (this.clock1 < 220 ? constrain(map(amp, 0, 0.08, 1.3, 0.3), 1.3, 0.3) : 1);
       let y = this.r * sin(i);
       this.clock1 < 150 && noise(this.clock, i) > 0.8 ? vertex(y, x) : "";
-      strokeWeight((1.5 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 / 1.5 * map(this.clock1, 140, 240, 0.7, 1.3));
+      strokeWeight((1.5 / 1000 * (width + height) / 2 * this.clock1 / 255) * pixelDensity() ^ 2 / 1.5 * map(this.clock1, 140, 240, 0.7, 1.5));
       abs(x) > width / 3 ? strokeWeight(noise(x) * 3) : "";
       point(x + i, y + i);
-      this.clock1 > 200 ? vertex(y, x) : "";
+      strokeWeight(1);
+      this.clock1 > 200 ? vertex(y + noise(i, this.clock) * 5, x + noise(i) * 10) : "";
     }
     endShape()
     pop();
