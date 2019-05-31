@@ -11,13 +11,13 @@ var btn;
 var counter = 1;
 var state = -1;
 var doubleClick,
-  ts = [];
+    ts = [];
 var mic, osc, filt;
 var red;
 var loops = [];
 var r = 30;
 var songs = [],
-  reverb;
+    reverb;
 var amplitudes = [];
 
 function preload() {
