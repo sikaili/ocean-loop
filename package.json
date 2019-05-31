@@ -1,0 +1,32 @@
+{
+  "name": "loop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start1": "nodemon --exec babel-node index.js ",
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sikaili/Bulle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sikaili/Bulle/issues"
+  },
+  "homepage": "https://github.com/sikaili/Bulle#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
