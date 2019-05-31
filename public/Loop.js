@@ -65,9 +65,8 @@ var Loop = function Loop(r, _x, _y) {
 
         if (distance < _this.r + array[i].r && _this.coli.indexOf(array[i]) == -1 && distance > 5) {
           _this.coli.push(array[i]); // this.pos.add(createVector(random(-3, 3), random(-3, 3)));
+          // let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
 
-
-          var d = _this.clock > _this.clock1 * 500 ? -10000 : 0.1;
         } else if (_this.coli.indexOf(array[i]) != -1) {// this.coli.splice(this.coli.indexOf(array[i]), 1);
         }
       }

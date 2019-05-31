@@ -22,14 +22,18 @@ var songs = [],
 var amplitudes = [];
 
 function preload() {
-  Array(70).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/sound".concat(i % 8, ".wav"));
-    amplitudes[i] = new p5.Amplitude();
+  Array(8).fill('').map(function (a, i) {
+    songs[i] = loadSound("assets/sound".concat(i, ".wav"), function (a) {
+      for (var n = 8; n < 60; n += 8) {
+        songs[i + n] = Object.assign(a);
+      }
+    });
   });
 }
 
 function setup() {
-  // pixelDensity(1)
+  console.log(songs.length); // pixelDensity(1)
+
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
@@ -46,7 +50,7 @@ function setup() {
   init();
   reverb.amp(3);
   mouseX = width / 2;
-  mouseY = height / 2; // getAudioContext().resume();
+  mouseY = height / 2;
 }
 
 function draw() {
@@ -56,7 +60,7 @@ function draw() {
     return a + b;
   }); // console.log(amplis)
 
-  background(0, 20 + amplis * 10);
+  background(0, 20 + amplis * 5 + loops.length / 2);
   var r = 100;
   loops.map(function (a, i) {
     // a is visible in the canvas 
@@ -82,7 +86,6 @@ function draw() {
     } else {
       // disconnect()
       songs[i].setVolume(0, 3);
-      console.log(song[i]);
       setTimeout(function () {
         songs[i].disconnect();
       }, 7000);
@@ -137,18 +140,26 @@ var createLoop = function createLoop(x, y, _r) {
     loops.push(dump);
   }
 
-  loops.length > 66 ? init() : "";
+  loops.length > songs.length - 11 ? init() : "";
 };
 
 var init = function init() {
+  setTimeout(function () {
+    var id = window.setTimeout(function () {}, 0);
+
+    while (id--) {
+      window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
+  }, 500);
   loops.length = 0;
   songs.map(function (a, i) {
-    // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
+    amplitudes.length == songs.length ? '' : amplitudes[i] = new p5.Amplitude();
+    a.connect(); // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
+
     reverb.process(a);
+    a.setVolume(0);
     a.play();
     a.playMode('sustain');
-    a.setVolume(0);
-    a.connect();
     a.stop();
     amplitudes[i].setInput(a);
   });

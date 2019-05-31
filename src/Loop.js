@@ -63,7 +63,7 @@ class Loop {
         if (distance < (this.r + array[i].r) && this.coli.indexOf(array[i]) == -1 && distance > 5) {
           this.coli.push(array[i]);
           // this.pos.add(createVector(random(-3, 3), random(-3, 3)));
-          let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
+          // let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
         } else if (this.coli.indexOf(array[i]) != -1) {
           // this.coli.splice(this.coli.indexOf(array[i]), 1);
         }

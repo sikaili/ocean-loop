@@ -35,7 +35,7 @@ function keyPressed() {
 
 function calR(state, speed) {
   state == 1 ? r += speed : r = 50;
-  r = constrain(r, 50, (width + height) / 5);
+  r = constrain(r, 50, (width + height) / 6);
   return r;
 }
 

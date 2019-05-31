@@ -1,6 +1,4 @@
 p5.disableFriendlyErrors = true;
-
-
 document.addEventListener(
   "touchmove",
   function (n) {
@@ -24,13 +22,17 @@ let songs = [],
 let amplitudes = [];
 
 function preload() {
-  Array(70).fill('').map((a, i) => {
-    songs[i] = loadSound("assets/sound".concat(i % 8, ".wav"));
-    amplitudes[i] = new p5.Amplitude();
+  Array(8).fill('').map((a, i) => {
+    songs[i] = loadSound("assets/sound".concat(i, ".wav"), a => {
+      for (let n = 8; n < 60; n += 8) {
+        songs[i + n] = Object.assign(a);
+      }
+    });
   })
 }
 
 function setup() {
+  console.log(songs.length);
   // pixelDensity(1)
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
@@ -49,13 +51,12 @@ function setup() {
   reverb.amp(3);
   mouseX = width / 2;
   mouseY = height / 2;
-  // getAudioContext().resume();
 }
 
 function draw() {
   let amplis = amplitudes.map(a => a.getLevel()).reduce((a, b) => a + b);
   // console.log(amplis)
-  background(0, 20 + amplis * 10);
+  background(0, 20 + amplis * 5 + loops.length / 2);
   let r = 100;
   loops.map((a, i) => {
     // a is visible in the canvas 
@@ -81,7 +82,6 @@ function draw() {
     } else {
       // disconnect()
       songs[i].setVolume(0, 3);
-      console.log(song[i]);
       setTimeout(() => {
         songs[i].disconnect();
       }, 7000);
@@ -133,24 +133,31 @@ const createLoop = (x, y, _r) => {
     let dump = new Loop(_r + random(20), x, y);
     loops.push(dump);
   }
-  loops.length > 66 ?
+  loops.length > songs.length - 11 ?
     init() :
     ""
 }
 
 const init = () => {
+  setTimeout(() => {
+    let id = window.setTimeout(function () {}, 0);
+    while (id--) {
+      window.clearTimeout(id);
+      // will do nothing if no timeout with id is present
+    }
+  }, 500);
   loops.length = 0;
   songs.map((a, i) => {
+    amplitudes.length == songs.length ? '' : amplitudes[i] = new p5.Amplitude();
+    a.connect();
     // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
     reverb.process(a);
+    a.setVolume(0);
     a.play();
     a.playMode('sustain');
-    a.setVolume(0);
-    a.connect();
     a.stop();
     amplitudes[i].setInput(a);
   })
-
 }
 
 
