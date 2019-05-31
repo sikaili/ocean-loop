@@ -15,11 +15,11 @@ let state = -1;
 let doubleClick, ts = [];
 let mic, osc, filt;
 let red;
-let loops = [];
 let r = 30;
-let songs = [],
-  reverb;
-let amplitudes = [];
+const loops = [];
+const songs = [],
+  reverb = new p5.Reverb(),
+  amplitudes = [];
 
 function preload() {
   Array(8).fill('').map((a, i) => {
@@ -37,11 +37,10 @@ function setup() {
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
-  btn = document.getElementById('record');
-  btn.textContent = "start recording";
-  document.body.appendChild(btn);
-  reverb = new p5.Reverb();
-  btn.onclick = record;
+  // btn = document.getElementById('record');
+  // btn.textContent = "start recording";
+  // document.body.appendChild(btn);
+  // btn.onclick = record;
   // let m = setInterval(() => {
   //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
   // }, 8000);
