@@ -143,13 +143,11 @@ var createLoop = function createLoop(x, y, _r) {
 };
 
 var init = function init() {
-  setTimeout(function () {
-    var id = window.setTimeout(function () {}, 0);
+  var id = window.setTimeout(function () {}, 0);
 
-    while (id--) {
-      window.clearTimeout(id); // will do nothing if no timeout with id is present
-    }
-  }, 500);
+  while (id--) {
+    window.clearTimeout(id); // will do nothing if no timeout with id is present
+  }
   loops.length = 0;
   songs.map(function (a, i) {
     amplitudes.length == songs.length ? '' : amplitudes[i] = new p5.Amplitude();
