@@ -9,7 +9,7 @@ document.addEventListener(
     passive: false
   }
 );
-
+let cvs;
 let capturer;
 let btn;
 let counter = 1;

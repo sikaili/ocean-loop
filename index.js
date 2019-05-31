@@ -5,9 +5,6 @@ app.use(express.static('public'));
 app.use("/src", express.static('src'));
 app.use("/assets", express.static('assets'));
 app.use("/libraries", express.static('libraries'));
-// app.use(express.static('public'));
-// app.use(express.static('libraries'));
-
 
 
 app.use(express.json({

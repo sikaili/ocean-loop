@@ -6,6 +6,7 @@ document.addEventListener("touchmove", function (n) {
 }, {
   passive: false
 });
+var cvs;
 var capturer;
 var btn;
 var counter = 1;
