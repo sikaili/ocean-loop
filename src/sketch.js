@@ -10,7 +10,6 @@ document.addEventListener(
 let cvs;
 let capturer;
 let btn;
-b
 let counter = 1;
 let state = -1;
 let doubleClick, ts = [];
@@ -24,9 +23,10 @@ const songs = [],
 
 function preload() {
   Array(8).fill('').map((a, i) => {
-    songs[i] = loadSound("assets/sound".concat(i, ".wav"), a => {
+    songs[i] = loadSound("assets/sound".concat(i, ".wav"), m => {
       for (let n = 8; n < 60; n += 8) {
-        songs[i + n] = Object.assign(a);
+        songs[i + n] = Object.assign(m);
+
       }
     });
   })

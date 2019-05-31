@@ -9,7 +9,6 @@ document.addEventListener("touchmove", function (n) {
 var cvs;
 var capturer;
 var btn;
-b;
 var counter = 1;
 var state = -1;
 var doubleClick,
@@ -24,9 +23,9 @@ var songs = [],
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/sound".concat(i, ".wav"), function (a) {
+    songs[i] = loadSound("assets/sound".concat(i, ".wav"), function (m) {
       for (var n = 8; n < 60; n += 8) {
-        songs[i + n] = Object.assign(a);
+        songs[i + n] = Object.assign(m);
       }
     });
   });
