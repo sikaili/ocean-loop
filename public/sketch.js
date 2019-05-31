@@ -56,7 +56,7 @@ function draw() {
     return a + b;
   }); // console.log(amplis)
 
-  background(0, 20 + amplis * 30);
+  background(0, 20 + amplis * 10);
   var r = 100;
   loops.map(function (a, i) {
     // a is visible in the canvas 
@@ -80,7 +80,9 @@ function draw() {
       a.update();
       a.display(loops, amp);
     } else {
+      // disconnect()
       songs[i].setVolume(0, 3);
+      console.log(song[i]);
       setTimeout(function () {
         songs[i].disconnect();
       }, 7000);

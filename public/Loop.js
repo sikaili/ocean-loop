@@ -41,13 +41,13 @@ var Loop = function Loop(r, _x, _y) {
 
     for (var i = 0; i < PI * 2; i += 0.07) {
       _this.clock += 0.0002 * _this.clock1 / 200;
-      _this.clock1 > 180 ? rotate(noise(_this.clock / 5, i) / 10 + _this.clock1 / 3) : "";
+      _this.clock1 > 180 ? rotate(noise(_this.clock / 5, i) / 10 + _this.clock1 / 3 + amp / 100) : "";
       _this.clock1 < 170 && Math.random() > 0.5 ? _this.r += 0.1 : '';
       var x = spinningPlate(_this.r, i, _this.clock1, _this.clock, array.length + _this.coli.length, amp) * (_this.clock1 < 220 ? constrain(map(amp, 0, 0.08, 1.3, 0.3), 1.3, 0.3) : 1);
       var y = _this.r * sin(i);
       _this.clock1 < 150 && noise(_this.clock, i) > 0.8 ? vertex(y, x) : "";
-      abs(x) > width / 3 ? strokeWeight(noise(x / 100, i) * 3) : "";
-      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3));
+      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3)); // abs(x) > width / 3 ? strokeWeight(noise(x / 100, i) * 3) : "";
+
       point(x + i, y + i);
       _this.clock1 > 200 ? vertex(y + noise(i, _this.clock) * 5, x + noise(i) * 100) : "";
     }

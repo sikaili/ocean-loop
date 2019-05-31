@@ -55,7 +55,7 @@ function setup() {
 function draw() {
   let amplis = amplitudes.map(a => a.getLevel()).reduce((a, b) => a + b);
   // console.log(amplis)
-  background(0, 20 + amplis * 30);
+  background(0, 20 + amplis * 10);
   let r = 100;
   loops.map((a, i) => {
     // a is visible in the canvas 
@@ -79,7 +79,9 @@ function draw() {
       a.update();
       a.display(loops, amp);
     } else {
-      songs[i].setVolume(0, 3)
+      // disconnect()
+      songs[i].setVolume(0, 3);
+      console.log(song[i]);
       setTimeout(() => {
         songs[i].disconnect();
       }, 7000);
