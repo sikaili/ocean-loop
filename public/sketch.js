@@ -6,19 +6,18 @@ document.addEventListener("touchmove", function (n) {
 }, {
   passive: false
 });
-var cvs;
 var capturer;
 var btn;
 var counter = 1;
 var state = -1;
 var doubleClick,
-  ts = [];
+    ts = [];
 var mic, osc, filt;
 var red;
 var loops = [];
 var r = 30;
 var songs = [],
-  reverb;
+    reverb;
 var amplitudes = [];
 
 function preload() {
@@ -32,8 +31,11 @@ function setup() {
   // pixelDensity(1)
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
-
+  btn = document.getElementById('record');
+  btn.textContent = "start recording";
+  document.body.appendChild(btn);
   reverb = new p5.Reverb();
+  btn.onclick = record; // let m = setInterval(() => {
   //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
   // }, 6000);
   // clearInterval(m);
@@ -121,7 +123,7 @@ function record() {
 }
 
 function createLoop(x, y, _r) {
-  // console.log(loops.length);
+  console.log(loops.length);
   _r > 50 ? background(random(100), 0, random(100), r * 4) : ""; // loops.length > 70 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 65) : "";
 
   var num = Math.floor(Math.random() * 10); // num = 1;
