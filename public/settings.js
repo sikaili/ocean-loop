@@ -3,14 +3,9 @@
 function touchStarted() {
   getAudioContext().resume();
   loops.map(function (a) {
-    // a.coli.mouse ?
-    //   Math.random() > 0.5 ?
-    //   a.bigger = !a.bigger :
-    //   a.shrink = !a.shrink :
-    //   ''
-    a.coli.mouse ? a.clock = 0 : "";
-  }); // fullscreen(true);
-
+    a.coli.mouse ? Math.random() > 0.5 ? a.bigger = !a.bigger : a.shrink = !a.shrink : ''; // a.coli.mouse ? a.clock = 0 : "";
+  });
+  fullscreen(true);
   state !== 1 ? state = 1 : ''; // if (songs[2].isPlaying()) {
   //   // .isPlaying() returns a boolean
   //   songs[2].stop();

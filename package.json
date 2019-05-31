@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start1": "nodemon --exec babel-node index.js ",
-    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d public"
+    "build": "babel src -d public",
+    "watch": "watch 'npm run build' ./src",
+    "start": "nodemon index.js & npm run watch"
   },
   "repository": {
     "type": "git",
@@ -22,12 +22,11 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
-    "@babel/helper-function-name": "^7.1.0",
-    "@babel/node": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "watch": "^1.0.2"
   }
 }
