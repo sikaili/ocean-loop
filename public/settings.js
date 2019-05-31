@@ -1,19 +1,20 @@
 "use strict";
 
 function touchStarted() {
-  getAudioContext().resume();
   loops.map(function (a) {
-    a.coli.mouse ? Math.random() > 0.5 ? a.bigger = !a.bigger : a.shrink = !a.shrink : ''; // a.coli.mouse ? a.clock = 0 : "";
+    a.coli.mouse ? Math.random() > 0.8 ? a.bigger = !a.bigger : a.shrink = !a.shrink : ''; // a.coli.mouse ? a.clock = 0 : "";
+  }); // fullscreen(true);
+
+  state != 1 ? state = 1 : ''; // console.log(getAudioContext());
+
+  getAudioContext().state == "running" ? '' : getAudioContext().resume();
+}
+
+function touchMoved() {
+  loops.map(function (a) {
+    a.coli.mouse ? a.shrink = !a.shrink : '';
   });
-  fullscreen(true);
-  state !== 1 ? state = 1 : ''; // if (songs[2].isPlaying()) {
-  //   // .isPlaying() returns a boolean
-  //   songs[2].stop();
-  //   // background(255, 0, 0);
-  // } else {
-  //   songs[2].play();
-  //   // background(0, 255, 0);
-  // }
+  state !== 1 ? state = 1 : '';
 }
 
 function touchEnded() {
@@ -33,7 +34,8 @@ function keyPressed() {
 }
 
 function calR(state, speed) {
-  state == 1 ? r += speed : r = 30;
+  state == 1 ? r += speed : r = 50;
+  r = constrain(r, 50, (width + height) / 5);
   return r;
 }
 

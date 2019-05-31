@@ -45,6 +45,8 @@ function setup() {
 
   init();
   reverb.amp(3);
+  mouseX = width / 2;
+  mouseY = height / 2; // getAudioContext().resume();
 }
 
 function draw() {
