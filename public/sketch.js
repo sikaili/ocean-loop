@@ -23,7 +23,7 @@ var amplitudes = [];
 
 function preload() {
   Array(70).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/horror/sound".concat(i % 7, ".wav"));
+    songs[i] = loadSound("assets/horror/sound".concat(i % 7, ".m4a"));
     amplitudes[i] = new p5.Amplitude();
   });
 }
