@@ -1,7 +1,15 @@
 "use strict";
 
 function touchStarted() {
-  getAudioContext().resume(); // fullscreen(true);
+  getAudioContext().resume();
+  loops.map(function (a) {
+    // a.coli.mouse ?
+    //   Math.random() > 0.5 ?
+    //   a.bigger = !a.bigger :
+    //   a.shrink = !a.shrink :
+    //   ''
+    a.coli.mouse ? a.clock = 0 : "";
+  }); // fullscreen(true);
 
   state !== 1 ? state = 1 : ''; // if (songs[2].isPlaying()) {
   //   // .isPlaying() returns a boolean
@@ -22,7 +30,11 @@ function keyPressed() {
   loops.forEach(function (a) {
     return a.clock /= 10;
   });
-  keyCode == 32 ? save(cvs, "1.tif") : ""; // keyCode == 82 ? record() : "";
+  keyCode == 32 ? save(cvs, "".concat(frameCount, ".tif")) : "";
+  keyCode == 8 ? init() : "";
+  keyCode == 66 ? loops.map(function (a) {
+    return a.shrink = true;
+  }) : ""; // keyCode == 82 ? record() : "";
 }
 
 function calR(state, speed) {

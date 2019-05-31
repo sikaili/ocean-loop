@@ -9,7 +9,7 @@ document.addEventListener(
     passive: false
   }
 );
-
+let cvs;
 let capturer;
 let btn;
 let counter = 1;
@@ -25,50 +25,36 @@ let amplitudes = [];
 
 function preload() {
   Array(70).fill('').map((a, i) => {
-    songs[i] = loadSound(`assets/horror/sound${i%5}.wav`);
+    songs[i] = loadSound("assets/new/sound".concat(i % 10, ".wav"));
     amplitudes[i] = new p5.Amplitude();
   })
 }
 
 function setup() {
-  // pixelDensity(1)
+  frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
-  btn = document.getElementById('record');
-  btn.textContent = "start recording";
-  document.body.appendChild(btn);
   reverb = new p5.Reverb();
-
-  btn.onclick = record;
-  // let m = setInterval(() => {
-  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
-  // }, 6000);
-  // clearInterval(m);
-  // masterVolume(0.1, 3, 3)
-  songs.map((a, i) => {
-    Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
-    a.play();
-    a.playMode('sustain');
-    a.setVolume(0);
-    a.connect();
-    a.stop();
-    amplitudes[i].setInput(a);
-  })
+  init();
   reverb.amp(3);
 }
 
 function draw() {
-  background(0, 35);
+  let amplis = amplitudes.map(a => a.getLevel()).reduce((a, b) => a + b);
+  // console.log(amplis)
+  background(0, 20 + amplis * 30);
   let r = 100;
   loops.map((a, i) => {
-    a.update();
-    if (a.r < (width + height) / 2 / 2 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
-      if (((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && !songs[i].isPlaying()) {
+    // a is visible in the canvas 
+    if (a.r < (width + height) / 3 && (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height)) {
+      // a is colorful and not playing
+      if (((a.coli.length % 3 === 1 && a.clock1 > 160) || a.coli.mouse) && !songs[i].isPlaying()) {
         let panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
         songs[i].pan(panning);
-        let rate = map(a.r, 0, (width + height) / 2 / 3, 0.2, 1.3);
-        songs[i].setVolume(rate, 1);
+        let rate = map(a.r, 50, (width + height) / 3, 0, 4);
+        songs[i].setVolume((rate + (a.coli.mouse ? 3 : -1)));
         songs[i].play();
+        // a is not colorful and playing
       } else if (!((a.coli.length % 3 === 1 && a.clock1 > 30) || a.coli.mouse) && songs[i].isPlaying()) {
         songs[i].setVolume(0, 1);
         setTimeout(() => {
@@ -77,6 +63,7 @@ function draw() {
       }
       let amp = amplitudes[i].getLevel();
       a.inter(loops);
+      a.update();
       a.display(loops, amp);
     } else {
       songs[i].setVolume(0, 3)
@@ -122,29 +109,33 @@ function record() {
   };
 }
 
-function createLoop(x, y, _r) {
+const createLoop = (x, y, _r) => {
   console.log(loops.length)
-  _r > 50 ? background(random(100), 0, random(100), r * 4) : "";
-  // loops.length > 70 ? Math.random() > 0.1 ? loops.splice(0, 15) : loops.splice(0, 65) : "";
+  _r > 100 ? background(random(100), 0, random(100), r / 2) : "";
   let num = Math.floor(Math.random() * 10);
   // num = 1;
-  y > height ? num = 0 : '';
   for (let i = 0; i < num; i++) {
     let dump = new Loop(_r + random(20), x, y);
     loops.push(dump);
   }
-  loops.length > 70 ?
-    (() => {
-      loops.splice(0, 70);
-      songs.map(a => {
-        a.playMode('sustain');
-        a.play();
-        a.setVolume(0);
-        a.connect();
-        a.stop();
-      });
-    })() :
+  loops.length > 66 ?
+    init() :
     ""
+}
+
+const init = () => {
+  loops.length = 0;
+  songs.map((a, i) => {
+    // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
+    reverb.process(a);
+    a.play();
+    a.playMode('sustain');
+    a.setVolume(0);
+    a.connect();
+    a.stop();
+    amplitudes[i].setInput(a);
+  })
+
 }
 
 
