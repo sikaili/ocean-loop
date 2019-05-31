@@ -10,6 +10,7 @@ document.addEventListener(
 let cvs;
 let capturer;
 let btn;
+b
 let counter = 1;
 let state = -1;
 let doubleClick, ts = [];

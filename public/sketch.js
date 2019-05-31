@@ -9,6 +9,7 @@ document.addEventListener("touchmove", function (n) {
 var cvs;
 var capturer;
 var btn;
+b;
 var counter = 1;
 var state = -1;
 var doubleClick,
