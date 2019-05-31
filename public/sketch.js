@@ -15,17 +15,17 @@ var doubleClick,
   ts = [];
 var mic, osc, filt;
 var red;
-var loops = [];
 var r = 30;
+var loops = [];
 var songs = [],
-  reverb;
-var amplitudes = [];
+  reverb = new p5.Reverb(),
+  amplitudes = [];
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/sound".concat(i, ".wav"), function (a) {
+    songs[i] = loadSound("assets/horror/sound".concat(i, ".m4a"), function (m) {
       for (var n = 8; n < 60; n += 8) {
-        songs[i + n] = Object.assign(a);
+        songs[i + n] = Object.assign(m);
       }
     });
   });
@@ -36,16 +36,15 @@ function setup() {
 
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
-  cvs.parent('sketch-holder');
-  btn = document.getElementById('record');
-  btn.textContent = "start recording";
-  document.body.appendChild(btn);
-  btn.onclick = record; // let m = setInterval(() => {
+  cvs.parent('sketch-holder'); // btn = document.getElementById('record');
+  // btn.textContent = "start recording";
+  // document.body.appendChild(btn);
+  // btn.onclick = record;
+  // let m = setInterval(() => {
   //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
   // }, 8000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
-
 
   init();
   reverb.amp(3);
