@@ -135,10 +135,7 @@ const init = () => {
     a.stop();
     amplitudes[i].setInput(a);
   })
-
 }
-
-
 
 document.touchmove = function (n) {
   n.preventDefault();

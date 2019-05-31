@@ -12,48 +12,47 @@ var Loop = function Loop(r, _x, _y) {
   _defineProperty(this, "update", function () {
     _this.shrink ? function () {
       _this.coli.length = 0;
-      _this.r > 0 ? _this.r -= 1 : "";
+      _this.r > 0.9 ? _this.r -= 1 : "";
       _this.coli.mouse = false;
     }() : "";
     _this.bigger ? function () {
       _this.r += 2;
     }() : '';
-    _this.clock1 < 170 || _this.coli.length > 10 || millis() - _this.start > 7000 ? _this.pos.add(_this.go) : ""; // this.coli.mouse && this.r - this.rInit < 100 ? this.r += 0.1 : this.r -= this.r > this.rInit ? 0.1 : 0;
+    _this.clock1 < 170 || _this.coli.length > 13 || millis() - _this.start > 7000 ? _this.pos.add(_this.go) : "";
   });
 
   _defineProperty(this, "display", function (array, amp) {
     push();
-    fill(0, 0);
+    _this.r < width / 6 ? fill(255, 1) : noFill();
 
     if (_this.coli.length % 3 === 1 && _this.clock1 > 160 || _this.coli.mouse) {
       stroke([random(0, 255), random(0, 255), random(0, 255), _this.clock1 / 1.5 + 30 + amp * 150]);
     } else {
-      stroke([255, _this.r / 4 + amp * 150 + 20]);
+      stroke([255, _this.r / 2 + amp * 150 + 20]);
     }
 
     beginShape();
-    translate(_this.pos.x, _this.pos.y);
-    push();
-    stroke(255, 30 + amp * 150); // text(amp.toString().slice(0, 5), 0, this.r);
-
-    pop(); // this.r = this.rInit * (this.coli.length + 1) / 2;
-
-    rotate(_this.clock1);
+    translate(_this.pos.x, _this.pos.y); // push();
+    // stroke(255, 30 + amp * 150);
+    // text(amp.toString().slice(0, 5), 0, this.r);
+    // pop();
+    // this.r = this.rInit * (this.coli.length + 1) / 2;
+    // rotate(this.clock1);
 
     for (var i = 0; i < PI * 2; i += 0.07) {
-      _this.clock += 0.0002;
-      _this.clock1 > 180 ? rotate(noise(_this.clock) / 10 + _this.clock1 / 3) : "";
-      _this.clock1 < 160 && Math.random() > 0.5 ? _this.r += 0.05 : '';
+      _this.clock += 0.0002 * _this.clock1 / 200;
+      _this.clock1 > 180 ? rotate(noise(_this.clock / 5, i) / 10 + _this.clock1 / 3 + amp / 100) : "";
+      _this.clock1 < 170 && Math.random() > 0.5 ? _this.r += 0.1 : '';
       var x = spinningPlate(_this.r, i, _this.clock1, _this.clock, array.length + _this.coli.length, amp) * (_this.clock1 < 220 ? constrain(map(amp, 0, 0.08, 1.3, 0.3), 1.3, 0.3) : 1);
       var y = _this.r * sin(i);
       _this.clock1 < 150 && noise(_this.clock, i) > 0.8 ? vertex(y, x) : "";
-      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3));
-      abs(x) > width / 3 ? strokeWeight(noise(x) * 3) : "";
+      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3)); // abs(x) > width / 3 ? strokeWeight(noise(x / 100, i) * 3) : "";
+
       point(x + i, y + i);
-      Math.random() > 0.2 ? strokeWeight(1) : '';
       _this.clock1 > 200 ? vertex(y + noise(i, _this.clock) * 5, x + noise(i) * 100) : "";
     }
 
+    Math.random() > 0.2 ? strokeWeight(1) : '';
     endShape();
     pop();
   });
@@ -66,9 +65,8 @@ var Loop = function Loop(r, _x, _y) {
 
         if (distance < _this.r + array[i].r && _this.coli.indexOf(array[i]) == -1 && distance > 5) {
           _this.coli.push(array[i]); // this.pos.add(createVector(random(-3, 3), random(-3, 3)));
+          // let d = this.clock > this.clock1 * 500 ? -10000 : 0.1;
 
-
-          var d = _this.clock > _this.clock1 * 500 ? -10000 : 0.1;
         } else if (_this.coli.indexOf(array[i]) != -1) {// this.coli.splice(this.coli.indexOf(array[i]), 1);
         }
       }

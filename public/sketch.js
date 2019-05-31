@@ -12,29 +12,45 @@ var btn;
 var counter = 1;
 var state = -1;
 var doubleClick,
-    ts = [];
+  ts = [];
 var mic, osc, filt;
 var red;
 var loops = [];
 var r = 30;
 var songs = [],
-    reverb;
+  reverb;
 var amplitudes = [];
 
 function preload() {
-  Array(70).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/horror/sound".concat(i % 7, ".m4a"));
-    amplitudes[i] = new p5.Amplitude();
+  Array(8).fill('').map(function (a, i) {
+    songs[i] = loadSound("assets/sound".concat(i, ".wav"), function (a) {
+      for (var n = 8; n < 60; n += 8) {
+        songs[i + n] = Object.assign(a);
+      }
+    });
   });
 }
 
 function setup() {
+  console.log(songs.length); // pixelDensity(1)
+
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder');
-  reverb = new p5.Reverb();
+  btn = document.getElementById('record');
+  btn.textContent = "start recording";
+  document.body.appendChild(btn);
+  btn.onclick = record; // let m = setInterval(() => {
+  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
+  // }, 8000);
+  // clearInterval(m);
+  // masterVolume(0.1, 3, 3)
+
+
   init();
   reverb.amp(3);
+  mouseX = width / 2;
+  mouseY = height / 2;
 }
 
 function draw() {
@@ -44,7 +60,7 @@ function draw() {
     return a + b;
   }); // console.log(amplis)
 
-  background(0, 20 + amplis * 30);
+  background(0, 20 + amplis * 5 + loops.length / 2);
   var r = 100;
   loops.map(function (a, i) {
     // a is visible in the canvas 
@@ -68,6 +84,7 @@ function draw() {
       a.update();
       a.display(loops, amp);
     } else {
+      // disconnect()
       songs[i].setVolume(0, 3);
       setTimeout(function () {
         songs[i].disconnect();
@@ -123,18 +140,26 @@ var createLoop = function createLoop(x, y, _r) {
     loops.push(dump);
   }
 
-  loops.length > 66 ? init() : "";
+  loops.length > songs.length - 11 ? init() : "";
 };
 
 var init = function init() {
+  setTimeout(function () {
+    var id = window.setTimeout(function () {}, 0);
+
+    while (id--) {
+      window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
+  }, 500);
   loops.length = 0;
   songs.map(function (a, i) {
-    // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
+    amplitudes.length == songs.length ? '' : amplitudes[i] = new p5.Amplitude();
+    a.connect(); // Math.random() > 0.6 ? a.reverseBuffer() : reverb.process(a);
+
     reverb.process(a);
+    a.setVolume(0);
     a.play();
     a.playMode('sustain');
-    a.setVolume(0);
-    a.connect();
     a.stop();
     amplitudes[i].setInput(a);
   });
