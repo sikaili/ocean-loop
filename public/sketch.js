@@ -23,7 +23,7 @@ var songs = [],
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/horror/sound".concat(i, ".m4a"), function (m) {
+    songs[i] = loadSound("assets/sound/horror".concat(i, ".m4a"), function (m) {
       for (var n = 8; n < 100; n += 8) {
         songs[i + n] = Object.assign(m);
       }
@@ -85,11 +85,14 @@ function draw() {
       a.display(loops, amp);
     } else {
       // disconnect()
-      if (amp > 0) {
+      let m;
+      if (amp > 0.0001) {
         songs[i].setVolume(0.0, 0.1);
-        setTimeout(function () {
+        m = setTimeout(function () {
           songs[i].disconnect();
         }, 2000);
+      } else {
+        clearTimeout(m);
       }
     }
   });
