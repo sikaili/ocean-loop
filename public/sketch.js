@@ -23,7 +23,7 @@ var songs = [],
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/sound/horror".concat(i, ".m4a"), function (m) {
+    songs[i] = loadSound("assets/horror/sound".concat(i, ".wav"), function (m) {
       for (var n = 8; n < 100; n += 8) {
         songs[i + n] = Object.assign(m);
       }
