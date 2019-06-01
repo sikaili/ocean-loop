@@ -20,6 +20,10 @@ function touchMoved() {
 function touchEnded() {
   state !== 0 ? state = 0 : '';
   createLoop(mouseX, mouseY, r);
+  touches.length == 2 ? save(cvs, "".concat(frameCount, ".tif")) : "";
+  touches.length > 2 ? loops.map(function (a) {
+    return a.shrink = true;
+  }) : "";
 }
 
 function keyPressed() {
@@ -34,8 +38,8 @@ function keyPressed() {
 }
 
 function calR(state, speed) {
-  state == 1 ? r += speed : r = 50;
-  r = constrain(r, 50, (width + height) / 6);
+  state == 1 ? r += speed : r = 100 + random(50);
+  r = constrain(r, 100, (width + height) / 6);
   return r;
 }
 

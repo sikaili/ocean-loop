@@ -4,19 +4,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Loop = function Loop(r, _x, _y) {
+var Loop = function Loop(r, _x, _y, n) {
   var _this = this;
 
   _classCallCheck(this, Loop);
 
   _defineProperty(this, "update", function () {
+    _this.r > (width + height) / 3 - 50 ? _this.shrink = true : '';
     _this.shrink ? function () {
       _this.coli.length = 0;
-      _this.r > 0.9 ? _this.r -= 1 : "";
+      _this.r > 0.9 ? _this.r -= 1 * _this.clock1 / 180 : "";
       _this.coli.mouse = false;
     }() : "";
     _this.bigger ? function () {
-      _this.r += 2;
+      _this.r += 3;
     }() : '';
     _this.clock1 < 170 || _this.coli.length > 13 || millis() - _this.start > 7000 ? _this.pos.add(_this.go) : "";
   });
@@ -28,26 +29,26 @@ var Loop = function Loop(r, _x, _y) {
     if (_this.coli.length % 3 === 1 && _this.clock1 > 160 || _this.coli.mouse) {
       stroke([random(0, 255), random(0, 255), random(0, 255), _this.clock1 / 1.5 + 30 + amp * 150]);
     } else {
-      stroke([255, _this.r / 2 + amp * 150 + 20]);
+      stroke(_this.shrink ? [255, _this.clock1 / 10 + 30] : [255, _this.r / 2 + amp * 150 + 20]);
     }
 
     beginShape();
     translate(_this.pos.x, _this.pos.y); // push();
     // stroke(255, 30 + amp * 150);
-    // text(amp.toString().slice(0, 5), 0, this.r);
+    // textSize(200);
+    // text("我", 0, this.r);
     // pop();
-    // this.r = this.rInit * (this.coli.length + 1) / 2;
+    // this.r = this.rInit * (this.coli.length + 1) / 1;
     // rotate(this.clock1);
 
     for (var i = 0; i < PI * 2; i += 0.07) {
       _this.clock += 0.0002 * _this.clock1 / 200;
       _this.clock1 > 180 ? rotate(noise(_this.clock / 5, i) / 10 + _this.clock1 / 3 + amp / 100) : "";
       _this.clock1 < 170 && Math.random() > 0.5 ? _this.r += 0.1 : '';
-      var x = spinningPlate(_this.r, i, _this.clock1, _this.clock, array.length + _this.coli.length, amp) * (_this.clock1 < 220 ? constrain(map(amp, 0, 0.08, 1.3, 0.3), 1.3, 0.3) : 1);
+      var x = spinningPlate(_this.r, i, _this.clock1, _this.clock, array.length + _this.coli.length, amp);
       var y = _this.r * sin(i);
       _this.clock1 < 150 && noise(_this.clock, i) > 0.8 ? vertex(y, x) : "";
-      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3)); // abs(x) > width / 3 ? strokeWeight(noise(x / 100, i) * 3) : "";
-
+      strokeWeight(1.5 / 1000 * (width + height) / 2 * _this.clock1 / 255 * pixelDensity() ^ 2 / 1.5 * map(_this.clock1, 140, 240, 0.7, 1.3));
       point(x + i, y + i);
       _this.clock1 > 200 ? vertex(y + noise(i, _this.clock) * 5, x + noise(i) * 100) : "";
     }
@@ -73,6 +74,7 @@ var Loop = function Loop(r, _x, _y) {
     }
   });
 
+  this.no = n;
   this.coli = [];
   this.pos = createVector(_x, _y);
   this.r = r;
@@ -91,7 +93,7 @@ function spinningPlate(r, i, clock1, clock, length, amp) {
   switch (n) {
     // 圆
     case 0:
-      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / (160 * amp) * length + clock) * cos(i);
+      return i / (2 * PI) * clock1 / 5 + 1 * r * sin(frameCount / (800 * amp) * length + clock) * cos(i);
       break;
 
     case 1:

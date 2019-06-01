@@ -15,7 +15,7 @@ var doubleClick,
   ts = [];
 var mic, osc, filt;
 var red;
-var r = 30;
+var r = 100;
 var loops = [];
 var songs = [],
   reverb = new p5.Reverb(),
@@ -24,7 +24,7 @@ var songs = [],
 function preload() {
   Array(8).fill('').map(function (a, i) {
     songs[i] = loadSound("assets/horror/sound".concat(i, ".m4a"), function (m) {
-      for (var n = 8; n < 60; n += 8) {
+      for (var n = 8; n < 100; n += 8) {
         songs[i + n] = Object.assign(m);
       }
     });
@@ -32,8 +32,6 @@ function preload() {
 }
 
 function setup() {
-  console.log(songs.length); // pixelDensity(1)
-
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
   cvs.parent('sketch-holder'); // btn = document.getElementById('record');
@@ -50,6 +48,7 @@ function setup() {
   reverb.amp(3);
   mouseX = width / 2;
   mouseY = height / 2;
+  masterVolume(0.3);
 }
 
 function draw() {
@@ -57,37 +56,41 @@ function draw() {
     return a.getLevel();
   }).reduce(function (a, b) {
     return a + b;
-  }); // console.log(amplis)
-
-  background(0, 20 + amplis * 5 + loops.length / 2);
-  var r = 100;
+  });
+  background(0, 20 + constrain(amplis * 2, 0, 60) + loops.length / 4);
   loops.map(function (a, i) {
-    // a is visible in the canvas 
-    if (a.r < (width + height) / 3 && a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height) {
+    var amp = amplitudes[i].getLevel(); // a is visible in the canvas 
+
+    if (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height) {
       // a is colorful and not playing
-      if ((a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) && !songs[i].isPlaying()) {
-        var panning = constrain(map(a.pos.x, 0., width, -1.0, 1.0), -1, 1);
+      if ((a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) && amp == 0.0) {
+        var panning = constrain(map(width > height ? a.pos.x : a.pos.y, 0., width > height ? width : height, width > height ? -1.0 : 1.0, width > height ? 1.0 : -1.0), -1, 1);
         songs[i].pan(panning);
         var rate = map(a.r, 50, (width + height) / 3, 0, 4);
-        songs[i].setVolume(rate + (a.coli.mouse ? 3 : -1));
-        songs[i].play(); // a is not colorful and playing
-      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && songs[i].isPlaying()) {
-        songs[i].setVolume(0, 1);
-        setTimeout(function () {
-          Math.random() > 0.3 ? songs[i].pause() : songs[i].stop();
-        }, 1500);
+        songs[i].setVolume(rate + (a.coli.mouse ? 3 : -1), 1);
+        !songs[i].isPlaying() ? songs[i].play() : '';
+
+        if (amp == 0) {
+          songs[i].connect();
+        } // a is not colorful and playing
+
+      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && a > 0.0) {
+        songs[i].setVolume(0, 0.1); // setTimeout(() => {
+        //   Math.random() > 0.3 ? songs[i].pause() : songs[i].stop();
+        // }, 800);
       }
 
-      var amp = amplitudes[i].getLevel();
       a.inter(loops);
       a.update();
       a.display(loops, amp);
     } else {
       // disconnect()
-      songs[i].setVolume(0, 3);
-      setTimeout(function () {
-        songs[i].disconnect();
-      }, 7000);
+      if (amp > 0) {
+        songs[i].setVolume(0.0, 0.1);
+        setTimeout(function () {
+          songs[i].disconnect();
+        }, 2000);
+      }
     }
   });
   noStroke();
@@ -135,7 +138,8 @@ var createLoop = function createLoop(x, y, _r) {
   var num = Math.floor(Math.random() * 10); // num = 1;
 
   for (var i = 0; i < num; i++) {
-    var dump = new Loop(_r + random(20), x, y);
+    var dump = new Loop(_r + random(20), x, y, loops.length);
+    console.log(dump.no);
     loops.push(dump);
   }
 
@@ -146,8 +150,9 @@ var init = function init() {
   var id = window.setTimeout(function () {}, 0);
 
   while (id--) {
-    window.clearTimeout(id); // will do nothing if no timeout with id is present
+    window.clearTimeout(id);
   }
+
   loops.length = 0;
   songs.map(function (a, i) {
     amplitudes.length == songs.length ? '' : amplitudes[i] = new p5.Amplitude();
