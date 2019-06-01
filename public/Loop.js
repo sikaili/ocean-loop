@@ -33,13 +33,7 @@ var Loop = function Loop(r, _x, _y, n) {
     }
 
     beginShape();
-    translate(_this.pos.x, _this.pos.y); // push();
-    // stroke(255, 30 + amp * 150);
-    // textSize(200);
-    // text("我", 0, this.r);
-    // pop();
-    // this.r = this.rInit * (this.coli.length + 1) / 1;
-    // rotate(this.clock1);
+    translate(_this.pos.x, _this.pos.y);
 
     for (var i = 0; i < PI * 2; i += 0.07) {
       _this.clock += 0.0002 * _this.clock1 / 200;

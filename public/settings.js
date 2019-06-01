@@ -15,15 +15,15 @@ function touchMoved() {
     a.coli.mouse ? a.shrink = !a.shrink : '';
   });
   state !== 1 ? state = 1 : '';
+  touches.length == 2 ? save(cvs, "".concat(frameCount, ".tif")) : "";
+  touches.length == 3 ? loops.map(function (a) {
+    return a.shrink = true;
+  }) : "";
 }
 
 function touchEnded() {
   state !== 0 ? state = 0 : '';
   createLoop(mouseX, mouseY, r);
-  touches.length == 2 ? save(cvs, "".concat(frameCount, ".tif")) : "";
-  touches.length > 2 ? loops.map(function (a) {
-    return a.shrink = true;
-  }) : "";
 }
 
 function keyPressed() {
@@ -34,7 +34,7 @@ function keyPressed() {
   keyCode == 8 ? init() : "";
   keyCode == 66 ? loops.map(function (a) {
     return a.shrink = true;
-  }) : ""; // keyCode == 82 ? record() : "";
+  }) : "";
 }
 
 function calR(state, speed) {

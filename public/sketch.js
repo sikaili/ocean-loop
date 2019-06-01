@@ -12,19 +12,19 @@ var btn;
 var counter = 1;
 var state = -1;
 var doubleClick,
-  ts = [];
+    ts = [];
 var mic, osc, filt;
 var red;
 var r = 100;
 var loops = [];
 var songs = [],
-  reverb = new p5.Reverb(),
-  amplitudes = [];
+    reverb = new p5.Reverb(),
+    amplitudes = [];
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/sound".concat(i, ".m4a"), function (m) {
-      for (var n = 8; n < 60; n += 8) {
+    songs[i] = loadSound("assets/horror/sound".concat(i, ".m4a"), function (m) {
+      for (var n = 8; n < 100; n += 8) {
         songs[i + n] = Object.assign(m);
       }
     });
@@ -85,14 +85,11 @@ function draw() {
       a.display(loops, amp);
     } else {
       // disconnect()
-      let m;
-      if (amp > 0.0001) {
+      if (amp > 0) {
         songs[i].setVolume(0.0, 0.1);
-        m = setTimeout(function () {
+        setTimeout(function () {
           songs[i].disconnect();
         }, 2000);
-      } else {
-        clearTimeout(m);
       }
     }
   });
@@ -138,7 +135,7 @@ function record() {
 var createLoop = function createLoop(x, y, _r) {
   console.log(loops.length);
   _r > 100 ? background(random(100), 0, random(100), r / 2) : "";
-  var num = Math.floor(Math.random() * 10); // num = 1;
+  var num = Math.ceil(Math.random() * 10); // num = 1;
 
   for (var i = 0; i < num; i++) {
     var dump = new Loop(_r + random(20), x, y, loops.length);
