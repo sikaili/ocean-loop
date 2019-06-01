@@ -1,6 +1,23 @@
 "use strict";
 
 p5.disableFriendlyErrors = true;
+
+if (window.DeviceOrientationEvent) {
+  window.addEventListener("deviceorientation", function (e) {
+    alpha = e.alpha;
+    beta = e.beta;
+    gamma = e.gamma;
+  });
+} else if (window.DeviceMotionEvent) {
+  window.addEventListener('devicemotion', function () {
+    tilt([event.acceleration.x * 2, event.acceleration.y * 2]);
+  }, true);
+} else {
+  window.addEventListener("MozOrientation", function () {
+    tilt([orientation.x * 50, orientation.y * 50]);
+  }, true);
+}
+
 document.addEventListener("touchmove", function (n) {
   n.preventDefault();
 }, {
@@ -20,11 +37,12 @@ var loops = [];
 var songs = [],
     reverb = new p5.Reverb(),
     amplitudes = [];
+var alpha, beta, gamma, acc, orientation;
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/kunchong/kunchong".concat(i, ".m4a"), function (m) {
-      for (var n = 8; n < 100; n += 8) {
+    songs[i] = loadSound("assets/sound".concat(i, ".m4a"), function (m) {
+      for (var n = 8; n < 80; n += 8) {
         songs[i + n] = Object.assign(m);
       }
     });
@@ -34,7 +52,12 @@ function preload() {
 function setup() {
   frameRate(30);
   cvs = createCanvas(windowWidth, windowHeight);
-  cvs.parent('sketch-holder'); // btn = document.getElementById('record');
+  cvs.parent('sketch-holder');
+  init();
+  reverb.amp(3);
+  mouseX = width / 2;
+  mouseY = height / 2;
+  masterVolume(0.4); // btn = document.getElementById('record');
   // btn.textContent = "start recording";
   // document.body.appendChild(btn);
   // btn.onclick = record;
@@ -43,12 +66,6 @@ function setup() {
   // }, 8000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
-
-  init();
-  reverb.amp(3);
-  mouseX = width / 2;
-  mouseY = height / 2;
-  masterVolume(0.3);
 }
 
 function draw() {
@@ -58,23 +75,19 @@ function draw() {
     return a + b;
   });
   background(0, 20 + constrain(amplis * 2, 0, 60) + loops.length / 4);
+  text(alpha, 100, 100);
   loops.map(function (a, i) {
     var amp = amplitudes[i].getLevel(); // a is visible in the canvas 
 
     if (a.pos.x > -100 && a.pos.x < width + 100 && a.pos.y > -100 && a.pos.y < height + 100) {
       // a is colorful and not playing
-      if ((a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) && amp < 0.0001) {
+      if (a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) {
         var panning = constrain(map(width > height ? a.pos.x : a.pos.y, 0., width > height ? width : height, width > height ? -1.0 : 1.0, width > height ? 1.0 : -1.0), -1, 1);
         songs[i].pan(panning);
         var rate = map(a.r, 50, (width + height) / 3, 0, 4);
         songs[i].setVolume(rate + (a.coli.mouse ? 3 : -1), 1);
         !songs[i].isPlaying() ? songs[i].play() : '';
-
-        if (amp == 0.0) {
-          songs[i].connect();
-        } // a is not colorful and playing
-
-      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && amp > 0.0001) {
+      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && amp !== 0) {
         songs[i].setVolume(0, 0.1);
       }
 
@@ -125,11 +138,10 @@ function record() {
 var createLoop = function createLoop(x, y, _r) {
   console.log(loops.length);
   _r > 100 ? background(random(100), 0, random(100), r / 2) : "";
-  var num = Math.ceil(Math.random() * 10); // num = 1;
+  var num = Math.ceil(Math.random() * 10);
 
   for (var i = 0; i < num; i++) {
-    var dump = new Loop(_r + random(20), x, y, loops.length);
-    console.log(dump.no);
+    var dump = new Loop(_r + random(20), x, y);
     loops.push(dump);
   }
 

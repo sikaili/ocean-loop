@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Loop = function Loop(r, _x, _y, n) {
+var Loop = function Loop(r, _x, _y) {
   var _this = this;
 
   _classCallCheck(this, Loop);
@@ -72,7 +72,6 @@ var Loop = function Loop(r, _x, _y, n) {
     }
   });
 
-  this.no = n;
   this.coli = [];
   this.pos = createVector(_x, _y);
   this.r = r;
