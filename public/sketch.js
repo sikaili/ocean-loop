@@ -23,7 +23,7 @@ var songs = [],
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
-    songs[i] = loadSound("assets/horror/sound".concat(i, ".m4a"), function (m) {
+    songs[i] = loadSound("assets/kunchong/kunchong".concat(i, ".m4a"), function (m) {
       for (var n = 8; n < 100; n += 8) {
         songs[i + n] = Object.assign(m);
       }
@@ -61,36 +61,26 @@ function draw() {
   loops.map(function (a, i) {
     var amp = amplitudes[i].getLevel(); // a is visible in the canvas 
 
-    if (a.pos.x > 0 && a.pos.x < width && a.pos.y > 0 && a.pos.y < height) {
+    if (a.pos.x > -100 && a.pos.x < width + 100 && a.pos.y > -100 && a.pos.y < height + 100) {
       // a is colorful and not playing
-      if ((a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) && amp == 0.0) {
+      if ((a.coli.length % 3 === 1 && a.clock1 > 160 || a.coli.mouse) && amp < 0.0001) {
         var panning = constrain(map(width > height ? a.pos.x : a.pos.y, 0., width > height ? width : height, width > height ? -1.0 : 1.0, width > height ? 1.0 : -1.0), -1, 1);
         songs[i].pan(panning);
         var rate = map(a.r, 50, (width + height) / 3, 0, 4);
         songs[i].setVolume(rate + (a.coli.mouse ? 3 : -1), 1);
         !songs[i].isPlaying() ? songs[i].play() : '';
 
-        if (amp == 0) {
+        if (amp == 0.0) {
           songs[i].connect();
         } // a is not colorful and playing
 
-      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && a > 0.0) {
-        songs[i].setVolume(0, 0.1); // setTimeout(() => {
-        //   Math.random() > 0.3 ? songs[i].pause() : songs[i].stop();
-        // }, 800);
+      } else if (!(a.coli.length % 3 === 1 && a.clock1 > 30 || a.coli.mouse) && amp > 0.0001) {
+        songs[i].setVolume(0, 0.1);
       }
 
       a.inter(loops);
       a.update();
       a.display(loops, amp);
-    } else {
-      // disconnect()
-      if (amp > 0) {
-        songs[i].setVolume(0.0, 0.1);
-        setTimeout(function () {
-          songs[i].disconnect();
-        }, 2000);
-      }
     }
   });
   noStroke();

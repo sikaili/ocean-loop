@@ -10,6 +10,10 @@ var Loop = function Loop(r, _x, _y, n) {
   _classCallCheck(this, Loop);
 
   _defineProperty(this, "update", function () {
+    if (!(_this.pos.x > 0 && _this.pos.x < width && _this.pos.y > 0 && _this.pos.y < height)) {
+      _this.shrink = true;
+    }
+
     _this.r > (width + height) / 3 - 50 ? _this.shrink = true : '';
     _this.shrink ? function () {
       _this.coli.length = 0;
