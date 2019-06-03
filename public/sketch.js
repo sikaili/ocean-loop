@@ -1,22 +1,6 @@
 "use strict";
-
 p5.disableFriendlyErrors = true;
 
-if (window.DeviceOrientationEvent) {
-  window.addEventListener("deviceorientation", function (e) {
-    alpha = e.alpha;
-    beta = e.beta;
-    gamma = e.gamma;
-  });
-} else if (window.DeviceMotionEvent) {
-  window.addEventListener('devicemotion', function () {
-    tilt([event.acceleration.x * 2, event.acceleration.y * 2]);
-  }, true);
-} else {
-  window.addEventListener("MozOrientation", function () {
-    tilt([orientation.x * 50, orientation.y * 50]);
-  }, true);
-}
 
 document.addEventListener("touchmove", function (n) {
   n.preventDefault();
@@ -29,15 +13,14 @@ var btn;
 var counter = 1;
 var state = -1;
 var doubleClick,
-    ts = [];
+  ts = [];
 var mic, osc, filt;
 var red;
 var r = 100;
 var loops = [];
 var songs = [],
-    reverb = new p5.Reverb(),
-    amplitudes = [];
-var alpha, beta, gamma, acc, orientation;
+  reverb = new p5.Reverb(),
+  amplitudes = [];
 
 function preload() {
   Array(8).fill('').map(function (a, i) {
@@ -75,7 +58,6 @@ function draw() {
     return a + b;
   });
   background(0, 20 + constrain(amplis * 2, 0, 60) + loops.length / 4);
-  text(alpha, 100, 100);
   loops.map(function (a, i) {
     var amp = amplitudes[i].getLevel(); // a is visible in the canvas 
 
