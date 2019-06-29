@@ -44,9 +44,12 @@ function setup() {
   // btn.textContent = "start recording";
   // document.body.appendChild(btn);
   // btn.onclick = record;
-  // let m = setInterval(() => {
-  //   createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
-  // }, 8000);
+  for(let i = 0;i<3;i++){
+     createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
+  }
+  let m = setInterval(() => {
+    createLoop(random(0, width), random(0, height), random(0, 0.1 * (width + height)));
+  }, 8000);
   // clearInterval(m);
   // masterVolume(0.1, 3, 3)
 }
